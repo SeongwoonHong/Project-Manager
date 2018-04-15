@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import './App.css';
+import { Segment } from 'semantic-ui-react';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
+      <Segment className="App" basic>
         App
-      </div>
+      </Segment>
     );
   }
 }
