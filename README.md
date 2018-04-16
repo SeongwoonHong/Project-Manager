@@ -1,4 +1,4 @@
-Trello Clone App using React
+Project Manager inspired by Trello
 
 Author: Seongwoon Hong
 
