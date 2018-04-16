@@ -8,6 +8,7 @@ import reduxThunk from 'redux-thunk';
 import reducers from './reducers';
 import './index.css';
 import App from './containers/App/App';
+import Navigation from './components/Navigation/Navigation';
 
 const store = createStore(
   reducers,
@@ -18,9 +19,12 @@ const store = createStore(
 ReactDOM.render(
   <Provider store={ store }>
     <BrowserRouter>
-      <Switch>
-        <Route path="/" component={ App } />
-      </Switch>
+      <div>
+        <Navigation />
+        <Switch>
+          <Route path="/" component={ App } />
+        </Switch>
+      </div>
     </BrowserRouter>
   </Provider>, document.getElementById('root')
 );

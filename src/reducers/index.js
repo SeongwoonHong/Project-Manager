@@ -4,4 +4,3 @@ import AppReducer from './AppReducer';
 export default combineReducers({
   App: AppReducer,
 });
-
