@@ -25,7 +25,7 @@ ReactDOM.render(
       <div>
         <Navigation />
         <Switch>
-          <Route path="/project" component={ App } />
+          <Route path="/project/:name" component={ App } />
           <Route exact path="/" component={Landing} />
           <Redirect to="/" />
         </Switch>
