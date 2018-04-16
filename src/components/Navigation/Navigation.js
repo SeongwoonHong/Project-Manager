@@ -7,7 +7,7 @@ class Navigation extends Component {
   render() {
     return (
       <StyledMenu>
-        <PM to="/"><Icon name="block layout" size="big" color="teal" />Project Manager</PM>
+        <PM to="/" style={{ fontWeight: 'bold' }}><Icon name="desktop" size="big" color="teal" />Project Manager</PM>
         <PM to="/signup"><Icon name="sign in" size="big" color="teal" />Sign In</PM>
       </StyledMenu>
     );
