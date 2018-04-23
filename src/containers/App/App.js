@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
-import { Segment, Header, Icon } from 'semantic-ui-react';
+import { Segment } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Board from '../../components/Board/Board';
+import ProjectHeader from '../../components/ProjectHeader/ProjectHeader';
 
 class App extends Component {
   render() {
-    const { match, project } = this.props;
+    const { match, project, app } = this.props;
+    const { backgroundColor } = app;
 
     return (
       <Segment className="App" basic>
-        <Header as="h2">
-          <Icon name="folder open outline" />
-          <Header.Content>
-            { match.params.name }
-          </Header.Content>
-        </Header>
+        <ProjectHeader
+          name={match.params.name}
+          backgroundColor={backgroundColor}
+        />
         <Board project={project} />
       </Segment>
     );
@@ -25,5 +25,6 @@ class App extends Component {
 
 export default connect(state => ({
   project: state.Project,
+  app: state.App,
 }))(withRouter(App));
 

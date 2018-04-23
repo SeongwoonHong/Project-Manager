@@ -1,1 +1,2 @@
-export const APP = 'APP';
+export const BG_COLOR_CHANGE = 'BG_COLOR_CHANGE';
+
