@@ -13,11 +13,20 @@ import Navigation from 'components/Navigation/Navigation';
 import reducers from './reducers';
 import './index.css';
 
+const isDevelopment = process.env.NODE_ENV === 'development';
+
 const store = createStore(
   reducers,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
   applyMiddleware(reduxThunk)
 );
+
+let TestRoutes;
+if (isDevelopment) {
+  TestRoutes = require('./test/routes').default;
+}
+
+window.store = store;
 
 ReactDOM.render(
   <Provider store={ store }>
@@ -25,6 +34,11 @@ ReactDOM.render(
       <div>
         <Navigation />
         <Switch>
+          {
+            isDevelopment
+              ? <Route path="/test" component={ TestRoutes } />
+              : null
+          }
           <Route path="/project/:name" component={ App } />
           <Route exact path="/" component={Landing} />
           <Redirect to="/" />
