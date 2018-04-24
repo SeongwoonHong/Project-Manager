@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Modal, Header, Card, Button, TextArea } from 'semantic-ui-react';
 import styled from 'styled-components';
 
-import { colors } from '../../utils/colors';
+import { colors } from 'utils/colors';
 
 class IssueCard extends Component {
   state = {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Segment } from 'semantic-ui-react';
-import AddProject from '../../components/AddProject/AddProject';
+
+import AddProject from 'components/AddProject/AddProject';
 
 class Landing extends Component {
   render() {

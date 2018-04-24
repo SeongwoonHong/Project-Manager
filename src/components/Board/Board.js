@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import IssueCard from '../IssueCard/IssueCard';
 
 class Board extends Component {

@@ -3,7 +3,7 @@ import { Header, Icon, Dropdown } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
-import { App } from '../../actions';
+import { App } from 'actions';
 
 const options = [
   { key: 'cornsilk', text: 'cornsilk', value: 'cornsilk' },

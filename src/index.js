@@ -7,11 +7,11 @@ import reduxThunk from 'redux-thunk';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { ToastContainer } from 'react-toastify';
 
+import App from 'containers/App/App';
+import Landing from 'containers/Landing/Landing';
+import Navigation from 'components/Navigation/Navigation';
 import reducers from './reducers';
 import './index.css';
-import App from './containers/App/App';
-import Landing from './containers/Landing/Landing';
-import Navigation from './components/Navigation/Navigation';
 
 const store = createStore(
   reducers,

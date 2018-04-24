@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Icon, Menu } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
-import { colors } from '../../utils/colors';
+
+import { colors } from 'utils/colors';
 
 class Navigation extends Component {
   render() {
