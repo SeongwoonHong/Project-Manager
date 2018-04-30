@@ -5,4 +5,5 @@ export const colors = {
   lightGrey: 'rgb(211, 211, 211)',
   lightBlue: 'rgb(174, 216, 229)',
   white: 'rgb(255, 255, 255)',
+  swimLane: '#f8f8f9',
 };

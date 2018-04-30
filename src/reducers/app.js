@@ -1,4 +1,4 @@
-import * as types from 'actions/types';
+import { App } from 'actions';
 
 const initialState = {
   backgroundColor: null,
@@ -6,7 +6,7 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case types.BG_COLOR_CHANGE:
+    case App.BG_COLOR_CHANGE:
       return {
         ...state,
         backgroundColor: action.backgroundColor,

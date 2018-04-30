@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { Card, Form, Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
 
+import { Project } from 'actions';
 import { colors } from 'utils/colors';
 
 class AddProject extends Component {
@@ -24,7 +26,7 @@ class AddProject extends Component {
 
   handleSubmit = () => {
     const { name } = this.state;
-    const { history } = this.props;
+    const { history, dispatch } = this.props;
 
     if (!name.trim()) {
       return toast.error('Name cannot be empty', {
@@ -32,6 +34,7 @@ class AddProject extends Component {
       });
     }
     this.setState({ isEditing: false });
+    dispatch(Project.addProject(name));
 
     return history.push(`/project/${name}`);
   }
@@ -65,7 +68,7 @@ class AddProject extends Component {
   }
 }
 
-export default withRouter(AddProject);
+export default connect()(withRouter(AddProject));
 
 const StyledCard = styled(({ children, className, ...rest }) => (
   <Card className={className} {...rest}>

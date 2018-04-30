@@ -8,8 +8,8 @@ export default {
       backgroundColor: 'lightBlue',
     },
   },
-  IssueCard: {
-    components: require('../components/IssueCard/IssueCard'),
+  Card: {
+    components: require('../components/Card/Card'),
     props: {
     },
   },
