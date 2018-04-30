@@ -1,4 +1,4 @@
 Project Manager inspired by Trello
 
-Author: Seongwoon Hong
+Author: Seongwoon Hong, Edwin Yoon
 
