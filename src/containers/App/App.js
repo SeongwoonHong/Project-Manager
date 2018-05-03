@@ -8,14 +8,12 @@ import ProjectHeader from 'components/ProjectHeader/ProjectHeader';
 
 class App extends Component {
   render() {
-    const { match, project, app } = this.props;
-    const { backgroundColor } = app;
+    const { match, project } = this.props;
 
     return (
       <Segment className="App" basic>
         <ProjectHeader
           name={match.params.name}
-          backgroundColor={backgroundColor}
         />
         <Board project={project} />
       </Segment>
@@ -25,6 +23,5 @@ class App extends Component {
 
 export default connect(state => ({
   project: state.Project,
-  app: state.App,
 }))(withRouter(App));
 

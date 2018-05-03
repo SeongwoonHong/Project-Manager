@@ -1,47 +1,59 @@
 import React, { Component } from 'react';
-import { Header, Icon, Dropdown } from 'semantic-ui-react';
+import { Header, Icon, Dropdown, DropdownItem } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
 import { App } from 'actions';
+import { colors } from 'utils/colors';
 
 const options = [
-  { key: 'cornsilk', text: 'cornsilk', value: 'cornsilk' },
-  { key: 'brown', text: 'brown', value: 'brown' },
-  { key: 'teal', text: 'teal', value: 'teal' },
+  { key: 'brown-key', text: 'brown', value: 'brown', },
+  { key: 'teal-key', text: 'teal', value: 'teal', },
+  { key: 'blue-key', text: 'blue', value: 'blue', },
+  { key: 'violet-key', text: 'violet', value: 'violet', },
 ];
-class ProjectHeader extends Component {
-  state= {
-    backgroundColor: null,
-  }
 
-  changeBgColor = (e, { value }) => {
+class ProjectHeader extends Component {
+  changeBgColor = (e, { children }) => {
     const { dispatch } = this.props;
 
-    return dispatch(App.bgColorChange(value));
+    return dispatch(App.bgColorChange(children[1]));
   }
 
   render() {
-    const { name, backgroundColor } = this.props;
+    const { name, app } = this.props;
+    const { backgroundColor } = app;
 
     return (
-      <StyledHeader as="h2" style={{ position: 'relative' }}>
+      <StyledHeader as="h2">
         <Icon name="folder open outline" />
         <Header.Content>
           { name }
         </Header.Content>
-        <Dropdown placeholder="color" inline options={options} onChange={this.changeBgColor} />
+
+        <Dropdown text="colors" inline>
+          <Dropdown.Menu scrolling>
+            { options.map(option => (
+              <DropdownItem key={option.key} onClick={this.changeBgColor}>
+                <Icon name="circle" color={option.value} />
+                { option.text }
+              </DropdownItem>
+            ))}
+          </Dropdown.Menu>
+        </Dropdown>
         <BackgroundOverlay backgroundColor={backgroundColor} />
       </StyledHeader>
     );
   }
 }
 
-export default connect()(ProjectHeader);
+export default connect(state => ({
+  app: state.App,
+}))(ProjectHeader);
 
 const StyledHeader = styled(({ className, children, ...rest }) => (
-  <Header className={className} {...rest}>
-    {children}
+  <Header className={className} { ...rest }>
+    { children }
   </Header>
 ))`
   &.ui.header {
@@ -50,7 +62,7 @@ const StyledHeader = styled(({ className, children, ...rest }) => (
     i {
       display: inline-block;
     }
-    
+
     .content {
       display: inline-block;
     }
@@ -59,6 +71,31 @@ const StyledHeader = styled(({ className, children, ...rest }) => (
       position: absolute;
       right: 0;
       top: 0;
+      border: 2px solid ${colors.lightGrey};
+      transition: all 0.2s ease-in;
+      border-radius: 5px;
+
+      .text {
+        margin: 3px 7px;
+        font-size: .8em;
+        color:  ${colors.lightGrey};
+      }
+
+      >i {
+        color: ${colors.lightGrey};
+      }
+
+      &:hover {
+        border: 2px solid ${colors.lightGrey};
+
+        .text {
+          color: ${colors.lightBlue};
+        }
+
+        >.icon {
+          color: ${colors.lightBlue};
+        }
+      }
     }
   }
 `;
@@ -71,5 +108,6 @@ const BackgroundOverlay = styled.div`
   bottom: 0;
   z-index: -1;
   background-color: ${props => props.backgroundColor};
+  color: white;
 `;
 

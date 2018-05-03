@@ -1,7 +1,7 @@
 import { App } from 'actions';
 
 const initialState = {
-  backgroundColor: null,
+  backgroundColor: 'lightseagreen',
 };
 
 export default function (state = initialState, action) {
