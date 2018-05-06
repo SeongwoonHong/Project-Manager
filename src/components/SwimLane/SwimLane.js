@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { Header, Icon, Segment } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 import { colors } from 'utils/colors';
 import Card from 'components/Card/Card';
-import AddItem from 'components/AddItem/AddItem';
-import SwimLaneHeader from './SwimLaneHeader/SwimLaneHeader';
+import AddCard from 'components/AddCard/AddCard';
 
 class SwimLane extends Component {
   state = {
@@ -18,63 +18,60 @@ class SwimLane extends Component {
 
   closeHeader = () => this.setState({ isHeaderOpened: false });
 
-  renderCards = () => {
-    const { project } = this.props;
-
-    return project.lanes.map(() => {
-      return (
-        <Card />
-      );
-    });
-  }
-
   render() {
-    const { project } = this.props;
+    const { lane, cards } = this.props;
 
     return (
       <div>
-        <StyledDiv>
+        <StyledSwimLaneContainer>
+          <StyledHeader>{ lane.name }<Icon name="trash" /></StyledHeader>
           {
-            project.lanes.length && project.lanes[0].name ? project.lanes[0].name : <SwimLaneHeader />
+            lane.cards.map((cardId) => {
+              return (
+                <Card
+                  data={cards[cardId]}
+                  laneId={lane.laneId}
+                  key={cardId}
+                />
+              );
+            })
           }
-        </StyledDiv>
-        {
-          this.renderCards()
-        }
-        {
-          project.lanes[0] &&
-          <StyledDiv>
-            <AddItem />
-          </StyledDiv>
-        }
+        </StyledSwimLaneContainer>
+
+        <AddCard laneId={lane.laneId} />
       </div>
     );
   }
 }
 
 export default connect(state => ({
-  project: state.Project,
+  cards: state.Cards,
 }))(SwimLane);
 
-const StyledDiv = styled.div`
-  width: 300px;
+const StyledSwimLaneContainer = styled(Segment)`
+  width: 280px;
+  margin-right: 10px !important;
   height: 100%;
   position: relative;
-  box-shadow: 0 0 0 1px rgba(34,36,38,.22) inset, 0 0 0 0 transparent;
-  border-radius: 0.3rem;
-  padding: 1em 1.5em;
-  min-height: 1em;
-  color: rgba(0, 0, 0, .87);
-  background-color: ${colors.swimLane};
+  display: inline-block;
+`;
 
-  > .plus.large.icon {
+const StyledHeader = styled(({ className, children, ...rest }) => (
+  <Header className={className} {...rest}>
+    {children}
+  </Header>
+))`
+  position: relative;
+
+  .trash.icon {
     position: absolute;
-    left: 50%;
+    right: 0;
     top: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateY(-50%);
+    cursor: pointer;
 
     &:hover {
-      cursor: pointer;
+      color: ${colors.grey};
     }
   }
 `;

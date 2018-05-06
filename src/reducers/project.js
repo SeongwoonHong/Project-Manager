@@ -1,8 +1,8 @@
 import { Project } from 'actions';
 
 const initialState = {
-  id: 0,
-  name: 'name test',
+  id: null,
+  name: '',
   lanes: [],
 };
 
@@ -13,25 +13,14 @@ export default function (state = initialState, action) {
         ...state,
         name: action.name,
       };
-    case Project.ADD_LANE:
+    case Project.PROJECT_ADD_LANE:
       return {
         ...state,
         lanes: [
           ...state.lanes,
-          {
-            name: action.name,
-            content: [],
-          }
-        ],
+          action.id
+        ]
       };
-    // case Project.ADD_CART:
-    //   return {
-    //     ...state,
-    //     lanes: [
-    //       ...state.lanes,
-    //       state.lanes.filter(lane => lane.name === action.name).content
-    //     ]
-    //   }
     default:
       return state;
   }

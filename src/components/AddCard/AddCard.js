@@ -2,19 +2,39 @@ import React, { Component } from 'react';
 import { Icon, Form, Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
 
-class AddItem extends Component {
+import { Cards, Lanes } from 'actions';
+
+class AddCard extends Component {
   state = {
     isEditing: false,
-    content: '',
+    title: '',
   }
 
   onChangeHandler = (e, { name, value }) => this.setState({ [name]: value });
 
-  onCancelHandler = () => this.setState({ isEditing: false });
+  onCancelHandler = () => this.setState({ isEditing: false, title: '' });
+
+  addCardHandler = () => {
+    const { dispatch, laneId } = this.props;
+    const { title } = this.state;
+    const cardId = shortid.generate();
+
+    if (!title.trim()) {
+      return toast.error('Title cannot be empty', {
+        position: toast.POSITION_TOP_RIGHT
+      });
+    }
+    dispatch(Cards.addCard(title, cardId));
+    dispatch(Lanes.addCard(laneId, cardId));
+
+    return this.setState({ isEditing: false, title: '' });
+  }
 
   render() {
-    const { isEditing, content } = this.state;
+    const { isEditing, title } = this.state;
 
     return (
       <div>
@@ -27,9 +47,9 @@ class AddItem extends Component {
               <Form.Field>
                 <Form.Input
                   type="text"
-                  name="content"
-                  placeholder={content ? '' : 'Add a new card'}
-                  value={content || ''}
+                  name="title"
+                  placeholder={title ? '' : 'Add a new card'}
+                  value={title || ''}
                   onChange={this.onChangeHandler}
                 />
                 <Button
@@ -45,7 +65,7 @@ class AddItem extends Component {
                   positive
                   icon="checkmark"
                   labelPosition="right"
-                  // onClick={() => addCard(content)}
+                  onClick={this.addCardHandler}
                   content="Save"
                 />
               </Form.Field>
@@ -56,7 +76,7 @@ class AddItem extends Component {
   }
 }
 
-export default connect()(AddItem);
+export default connect()(AddCard);
 
 const StyledIconContainer = styled.div`
   position: relative;
@@ -67,6 +87,7 @@ const StyledIconContainer = styled.div`
     top: 50%;
     transform: translate(-50%, -50%);
     cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.3);
   }
 `;
 
