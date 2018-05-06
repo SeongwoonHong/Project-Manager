@@ -12,13 +12,12 @@ class Card extends Component {
     title: '',
     description: '',
     modalOpen: false,
-    ...this.props.data,
+    ...this.props,
   }
 
   onSaveHandler = () => {
     const { title, description } = this.state;
-    const { dispatch } = this.props;
-    const { cardId } = this.props.data;
+    const { dispatch, cardId } = this.props;
 
     if (!title.trim()) {
       return toast.error('Title cannot be empty', {
@@ -34,8 +33,7 @@ class Card extends Component {
   onChangeHandler = (e, { name, value }) => this.setState({ [name]: value });
 
   deleteHandler = () => {
-    const { cardId } = this.props.data;
-    const { dispatch, laneId } = this.props;
+    const { dispatch, laneId, cardId } = this.props;
 
     dispatch(Cards.deleteCard(cardId));
     dispatch(Lanes.deleteCard(laneId, cardId));
@@ -43,15 +41,15 @@ class Card extends Component {
     return this.setState({ modalOpen: false });
   }
 
-  resetState = () => this.setState({ title: this.props.data.title, description: this.props.data.description || '' });
+  resetState = () => this.setState({ title: this.props.title, description: this.props.description || '' });
 
-  closeModal = () => this.setState({ modalOpen: false, title: this.props.data.title, description: this.props.data.description || '' });
+  closeModal = () => this.setState({ modalOpen: false, title: this.props.title, description: this.props.description || '' });
 
   openModal = () => this.setState({ modalOpen: true });
 
   render() {
     const { modalOpen, description } = this.state;
-    const { title } = this.props.data;
+    const { title } = this.props;
 
     return (
       <Modal

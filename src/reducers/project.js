@@ -21,7 +21,13 @@ export default function (state = initialState, action) {
           action.id
         ]
       };
+    case Project.PROJECT_DELETE_LANE:
+      return {
+        ...state,
+        lanes: state.lanes.filter(laneId => laneId !== action.laneId),
+      };
     default:
       return state;
   }
 }
+

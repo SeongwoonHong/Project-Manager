@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Header, Icon, Segment } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
+import { Lanes, Project } from 'actions';
 import { colors } from 'utils/colors';
 import Card from 'components/Card/Card';
 import AddCard from 'components/AddCard/AddCard';
@@ -18,18 +19,29 @@ class SwimLane extends Component {
 
   closeHeader = () => this.setState({ isHeaderOpened: false });
 
+  laneDeleteHandler = () => {
+    const { lane } = this.props;
+    const { dispatch } = this.props;
+
+    dispatch(Project.deleteLane(lane.laneId));
+
+    return dispatch(Lanes.deleteLane(lane.laneId));
+  }
+
   render() {
     const { lane, cards } = this.props;
 
     return (
       <div>
         <StyledSwimLaneContainer>
-          <StyledHeader>{ lane.name }<Icon name="trash" /></StyledHeader>
+          <StyledHeader>{ lane.name }<Icon name="trash" onClick={this.laneDeleteHandler} /></StyledHeader>
           {
             lane.cards.map((cardId) => {
               return (
                 <Card
-                  data={cards[cardId]}
+                  title={cards[cardId].title}
+                  cardId={cards[cardId].cardId}
+                  description={cards[cardId].description}
                   laneId={lane.laneId}
                   key={cardId}
                 />

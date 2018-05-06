@@ -5,7 +5,7 @@ export const ADD_PROJECT = 'ADD_PROJECT';
 export const PROJECT_ADD_LANE = 'PROJECT_ADD_LANE';
 export const ADD_CARD = 'ADD_CARD';
 export const ADD_CART = 'ADD_CART';
-
+export const PROJECT_DELETE_LANE = 'PROJECT_DELETE_LANE';
 /**
  * Action creators
  */
@@ -28,6 +28,13 @@ export function addCard(name, content) { // name = the name of lane in which car
     type: ADD_CARD,
     content,
     name,
+  };
+}
+
+export function deleteLane(laneId) {
+  return {
+    type: PROJECT_DELETE_LANE,
+    laneId,
   };
 }
 

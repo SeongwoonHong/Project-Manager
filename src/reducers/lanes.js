@@ -32,8 +32,12 @@ export default function (state = {}, action) {
       };
     case Lanes.DELETE_LANE:
       return {
-        ...state,
-        ...Object.keys(state).filter(card => card.id !== action.laneId),
+        ...Object.keys(state).reduce((result, key) => {
+          if (key !== action.laneId) {
+            result[key] = state[key];
+          }
+          return result;
+        }, {})
       };
     case Lanes.LANE_DELETE_CARD:
       return {
