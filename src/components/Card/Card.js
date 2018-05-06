@@ -1,37 +1,57 @@
 import React, { Component } from 'react';
 import { Modal, Header, Card as SemanticCard, Button, TextArea } from 'semantic-ui-react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
 
 import { colors } from 'utils/colors';
+import { Cards, Lanes } from 'actions';
 
 class Card extends Component {
   state = {
     title: '',
     description: '',
     modalOpen: false,
-    modalTitle: '',
-    modalDescription: '',
-    ...this.props,
+    ...this.props.data,
   }
 
-  onSaveHandler = () => (
-    this.setState({
-      title: this.state.modalTitle,
-      description: this.state.modalDescription,
-      modalOpen: false,
-    })
-  )
+  onSaveHandler = () => {
+    const { title, description } = this.state;
+    const { dispatch } = this.props;
+    const { cardId } = this.props.data;
+
+    if (!title.trim()) {
+      return toast.error('Title cannot be empty', {
+        position: toast.POSITION_TOP_RIGHT
+      });
+    }
+
+    dispatch(Cards.updateCard(cardId, title, description));
+
+    return this.setState({ modalOpen: false });
+  }
 
   onChangeHandler = (e, { name, value }) => this.setState({ [name]: value });
 
-  resetState = () => this.setState({ modalTitle: '', modalDescription: '' }); // later on, title should be clear
+  deleteHandler = () => {
+    const { cardId } = this.props.data;
+    const { dispatch, laneId } = this.props;
 
-  closeModal = () => this.setState({ modalOpen: false });
+    dispatch(Cards.deleteCard(cardId));
+    dispatch(Lanes.deleteCard(laneId, cardId));
+
+    return this.setState({ modalOpen: false });
+  }
+
+  resetState = () => this.setState({ title: this.props.data.title, description: this.props.data.description || '' });
+
+  closeModal = () => this.setState({ modalOpen: false, title: this.props.data.title, description: this.props.data.description || '' });
 
   openModal = () => this.setState({ modalOpen: true });
 
   render() {
-    const { title, modalOpen, modalTitle, modalDescription } = this.state;
+    const { modalOpen, description } = this.state;
+    const { title } = this.props.data;
 
     return (
       <Modal
@@ -43,12 +63,11 @@ class Card extends Component {
         open={modalOpen}
         size="tiny"
         onClose={this.resetState}
-        closeOnDimmerClick={this.closeModal}
       >
         <Modal.Header>
           <StyledTextArea
-            name="modalTitle"
-            value={modalTitle}
+            name="title"
+            value={this.state.title}
             autoHeight
             onChange={this.onChangeHandler}
           />
@@ -58,16 +77,16 @@ class Card extends Component {
             <Header>Description</Header>
             <StyledTextArea
               autoHeight
-              name="modalDescription"
+              name="description"
               placeholder="Add a more detailed description..."
               onChange={this.onChangeHandler}
-              value={modalDescription}
+              value={description}
             />
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions>
           <Button type="button" negative onClick={this.closeModal} icon="cancel" labelPosition="left" content="Cancel" floated="left" />
-          <Button type="button" negative icon="trash" labelPosition="right" content="Delete" />
+          <Button type="button" negative icon="trash" onClick={this.deleteHandler} labelPosition="right" content="Delete" />
           <Button type="button" positive icon="checkmark" labelPosition="right" onClick={this.onSaveHandler} content="Save" />
         </Modal.Actions>
       </Modal>
@@ -75,7 +94,7 @@ class Card extends Component {
   }
 }
 
-export default Card;
+export default connect()(Card);
 
 const StyledTextArea = styled(({ className, children, ...rest }) => (
   <TextArea className={className} {...rest}>
