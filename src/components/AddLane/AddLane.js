@@ -12,9 +12,21 @@ class AddLane extends Component {
     name: '',
   }
 
+  onKeyDownHandler = (e) => {
+    if (e.keyCode === 13 && e.shiftKey === false) {
+      return this.submitHandler();
+    }
+
+    if (e.keyCode === 27) {
+      return this.resetState();
+    }
+
+    return false;
+  }
+
   changeHandler = (e, { name, value }) => this.setState({ [name]: value });
 
-  cancelHandler = () => this.setState({ isEditing: false, name: '' });
+  resetState = () => this.setState({ isEditing: false, name: '' });
 
   submitHandler = () => {
     const { name } = this.state;
@@ -24,7 +36,7 @@ class AddLane extends Component {
     dispatch(Lanes.addLane(name, id));
     dispatch(Project.addLane(id));
 
-    return this.setState({ isEditing: false, name: '' });
+    return this.resetState();
   }
 
   render() {
@@ -44,11 +56,12 @@ class AddLane extends Component {
                   placeholder={name || ''}
                   value={name || ''}
                   onChange={this.changeHandler}
+                  onKeyDown={this.onKeyDownHandler}
                 />
                 <Button
                   type="button"
                   negative
-                  onClick={this.cancelHandler}
+                  onClick={this.resetState}
                   icon="trash"
                   labelPosition="right"
                   content="Cancel"

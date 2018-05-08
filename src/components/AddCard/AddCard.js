@@ -13,9 +13,21 @@ class AddCard extends Component {
     title: '',
   }
 
+  onKeyDownHandler = (e) => {
+    if (e.keyCode === 13 && e.shiftKey === false) {
+      return this.addCardHandler();
+    }
+
+    if (e.keyCode === 27) {
+      return this.resetState();
+    }
+
+    return false;
+  }
+
   onChangeHandler = (e, { name, value }) => this.setState({ [name]: value });
 
-  onCancelHandler = () => this.setState({ isEditing: false, title: '' });
+  resetState = () => this.setState({ isEditing: false, title: '' });
 
   addCardHandler = () => {
     const { dispatch, laneId } = this.props;
@@ -51,11 +63,12 @@ class AddCard extends Component {
                   placeholder={title ? '' : 'Add a new card'}
                   value={title || ''}
                   onChange={this.onChangeHandler}
+                  onKeyDown={this.onKeyDownHandler}
                 />
                 <Button
                   type="button"
                   negative
-                  onClick={this.onCancelHandler}
+                  onClick={this.resetState}
                   icon="trash"
                   labelPosition="right"
                   content="Cancel"

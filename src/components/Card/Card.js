@@ -83,7 +83,7 @@ class Card extends Component {
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions>
-          <Button type="button" negative onClick={this.closeModal} icon="cancel" labelPosition="left" content="Cancel" floated="left" />
+          <Button type="button" negative onClick={this.closeModal} icon="cancel" labelPosition="right" content="Cancel" floated="left" />
           <Button type="button" negative icon="trash" onClick={this.deleteHandler} labelPosition="right" content="Delete" />
           <Button type="button" positive icon="checkmark" labelPosition="right" onClick={this.onSaveHandler} content="Save" />
         </Modal.Actions>
