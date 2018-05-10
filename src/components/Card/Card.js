@@ -3,10 +3,10 @@ import { Modal, Header, Card as SemanticCard, Button, TextArea, Icon, Dropdown }
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
-import shortid from 'shortid';
+// import shortid from 'shortid';
 
 import { colors } from 'utils/colors';
-import { Cards, Lanes, Labels } from 'actions';
+import { Cards, Lanes } from 'actions';
 
 const labelOptions = [
   { text: 'Green', value: 'green', icon: 'thumbs up' },
@@ -22,14 +22,13 @@ class Card extends Component {
     title: '',
     description: '',
     modalOpen: false,
-    selectedLabels: [],
+    labels: [],
     ...this.props,
   }
 
   onSaveHandler = () => {
-    const { title, description, selectedLabels } = this.state;
-    const { dispatch, cardId, labels } = this.props;
-    let newLabelId;
+    const { title, description, labels } = this.state;
+    const { dispatch, cardId } = this.props;
 
     if (!title.trim()) {
       return toast.error('Title cannot be empty', {
@@ -37,13 +36,7 @@ class Card extends Component {
       });
     }
 
-    if (!labels.labelId) {
-      newLabelId = shortid.generate();
-      dispatch(Labels.addLabel(newLabelId, selectedLabels));
-    } else {
-      dispatch(Labels.addLabel(labels.labelId, selectedLabels));
-    }
-
+    dispatch(Cards.addLabel(cardId, labels));
     dispatch(Cards.updateCard(cardId, title, description, labels.labelId));
 
     return this.setState({ modalOpen: false });
@@ -62,34 +55,20 @@ class Card extends Component {
 
   resetState = () => this.setState({ title: this.props.title, description: this.props.description || '' });
 
-  closeModal = () => this.setState({ modalOpen: false, title: this.props.title, description: this.props.description || '' });
+  closeModal = () => this.setState({ modalOpen: false, title: this.props.title, description: this.props.description || '', labels: this.props.labels });
 
   openModal = () => this.setState({ modalOpen: true });
 
-  handleSelection = (e, { value }) => {
-    const selection = [];
+  handleSelection = (e, { value }) => this.setState({ labels: value });
 
-    value.forEach((str) => {
-      labelOptions.forEach((label) => {
-        if (label.value === str) {
-          selection.push(label);
-        }
-      });
-    });
+  handleLabels = () => {
+    const { labels } = this.props;
 
-    return this.setState({ selectedLabels: selection });
-  };
-
-  handleSelectedLabels = () => {
-    const { selectedLabels } = this.state;
-
-    return selectedLabels !== null || undefined
-      ? selectedLabels.map((label) => {
+    return labels.length
+      ? labels.map((label) => {
         return (
-          <Button size="mini" basic color={label.value} key={label.value} compact>
-            <Button.Content>
-              <Icon name={label.icon}color={label.value} />
-            </Button.Content>
+          <Button size="mini" basic key={label} compact>
+            {label}
           </Button>);
       })
       : null;
@@ -114,7 +93,7 @@ class Card extends Component {
           <SemanticCard onClick={this.openModal}>
             <SemanticCard.Content >
               <SemanticCard.Header>
-                { this.state.selectedLabels && this.handleSelectedLabels() }
+                { this.handleLabels() }
               </SemanticCard.Header>
               <SemanticCard.Description>
                 { title }
@@ -140,7 +119,7 @@ class Card extends Component {
             options={labelOptions}
             onChange={this.handleSelection}
             renderLabel={this.renderLabels}
-            value={this.state.selectedLabels.map(label => label.value)}
+            value={this.state.labels}
           />
         </Modal.Header>
         <Modal.Content image>
@@ -165,9 +144,7 @@ class Card extends Component {
   }
 }
 
-export default connect(state => ({
-  labels: state.Labels,
-}))(Card);
+export default connect()(Card);
 
 const StyledTextArea = styled(({ className, children, ...rest }) => (
   <TextArea className={className} {...rest}>

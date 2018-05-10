@@ -8,6 +8,7 @@ export default function (state = {}, action) {
         [action.cardId]: {
           cardId: action.cardId,
           title: action.title,
+          labels: [],
         },
       };
     case Cards.UPDATE_CARD:
@@ -27,6 +28,16 @@ export default function (state = {}, action) {
           }
           return result;
         }, {})
+      };
+    case Cards.ADD_LABEL:
+      return {
+        ...state,
+        [action.cardId]: {
+          ...state[action.cardId],
+          labels: [
+            ...action.content,
+          ],
+        }
       };
     default:
       return state;
