@@ -4,6 +4,7 @@
 export const ADD_CARD = 'ADD_CARD';
 export const UPDATE_CARD = 'UPDATE_CARD';
 export const DELETE_CARD = 'DELETE_CARD';
+export const ADD_LABEL = 'ADD_LABEL';
 
 /**
  * Action creators
@@ -32,3 +33,10 @@ export function deleteCard(cardId) {
   };
 }
 
+export function addLabel(cardId, content) {
+  return {
+    type: ADD_LABEL,
+    cardId,
+    content,
+  };
+}

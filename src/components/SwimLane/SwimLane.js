@@ -42,6 +42,7 @@ class SwimLane extends Component {
                   title={cards[cardId].title}
                   cardId={cards[cardId].cardId}
                   description={cards[cardId].description}
+                  labels={cards[cardId].labels}
                   laneId={lane.laneId}
                   key={cardId}
                 />

@@ -7,10 +7,10 @@ import { App } from 'actions';
 import { colors } from 'utils/colors';
 
 const options = [
-  { key: 'brown-key', text: 'brown', value: 'brown', },
-  { key: 'teal-key', text: 'teal', value: 'teal', },
-  { key: 'blue-key', text: 'blue', value: 'blue', },
-  { key: 'violet-key', text: 'violet', value: 'violet', },
+  { text: 'brown', value: 'brown', },
+  { text: 'teal', value: 'teal', },
+  { text: 'blue', value: 'blue', },
+  { text: 'violet', value: 'violet', },
 ];
 
 class ProjectHeader extends Component {
@@ -34,7 +34,7 @@ class ProjectHeader extends Component {
         <Dropdown text="colors" inline>
           <Dropdown.Menu scrolling>
             { options.map(option => (
-              <DropdownItem key={option.key} onClick={this.changeBgColor}>
+              <DropdownItem key={option.value} onClick={this.changeBgColor}>
                 <Icon name="circle" color={option.value} />
                 { option.text }
               </DropdownItem>
