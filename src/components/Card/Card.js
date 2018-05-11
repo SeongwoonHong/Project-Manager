@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Header, Card as SemanticCard, Button, TextArea, Icon, Dropdown } from 'semantic-ui-react';
+import { Modal, Header, Card as SemanticCard, Button, TextArea, Dropdown } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -9,12 +9,12 @@ import { colors } from 'utils/colors';
 import { Cards, Lanes } from 'actions';
 
 const labelOptions = [
-  { text: 'Green', value: 'green', icon: 'thumbs up' },
-  { text: 'Blue', value: 'blue', icon: 'star' },
-  { text: 'Orange', value: 'orange', icon: 'idea' },
-  { text: 'Red', value: 'red', icon: 'warning' },
-  { text: 'Pink', value: 'pink', icon: 'heart' },
-  { text: 'Olive', value: 'olive', icon: 'conversation' },
+  { value: 'green', text: 'Thumbs up' },
+  { value: 'blue', text: 'Star' },
+  { value: 'orange', text: 'Idea' },
+  { value: 'red', text: 'Warning' },
+  { value: 'pink', text: 'Heart' },
+  { value: 'olive', text: 'Conversation' },
 ];
 
 class Card extends Component {
@@ -37,7 +37,7 @@ class Card extends Component {
     }
 
     dispatch(Cards.addLabel(cardId, labels));
-    dispatch(Cards.updateCard(cardId, title, description, labels.labelId));
+    dispatch(Cards.updateCard(cardId, title, description));
 
     return this.setState({ modalOpen: false });
   }
@@ -63,22 +63,30 @@ class Card extends Component {
 
   handleLabels = () => {
     const { labels } = this.props;
+    const filtered = [];
 
-    return labels.length
-      ? labels.map((label) => {
-        return (
-          <Button size="mini" basic key={label} compact>
-            {label}
-          </Button>);
-      })
-      : null;
+    labels.map((label) => {
+      return labelOptions.forEach((option) => {
+        if (option.value === label) {
+          filtered.push(option);
+        }
+      });
+    });
+
+    return labels.length ? filtered.map((option) => {
+      return (
+        <Button size="mini" basic key={option.value} color={option.value} compact>
+          {option.text}
+        </Button>
+      );
+    }) : null;
   }
 
   renderLabels = (label) => {
 
     return {
       key: label.value,
-      icon: (<Icon name={label.icon} />),
+      content: label.text,
       color: label.value,
     };
   }
