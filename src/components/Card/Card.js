@@ -65,6 +65,7 @@ class Card extends Component {
     const { labels } = this.props;
     const filtered = [];
 
+
     labels.map((label) => {
       return labelOptions.forEach((option) => {
         if (option.value === label) {
