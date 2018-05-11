@@ -13,7 +13,6 @@ class Board extends Component {
       <StyledBoardContainer>
         {
           project.lanes.map((laneId) => {
-            console.log(laneId);
             return (
               <SwimLane
                 lane={lanes[laneId]}

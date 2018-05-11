@@ -3,18 +3,17 @@ import { Modal, Header, Card as SemanticCard, Button, TextArea, Dropdown } from 
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
-// import shortid from 'shortid';
 
 import { colors } from 'utils/colors';
 import { Cards, Lanes } from 'actions';
 
 const labelOptions = [
-  { value: 'green', text: 'Thumbs up' },
-  { value: 'blue', text: 'Star' },
-  { value: 'orange', text: 'Idea' },
-  { value: 'red', text: 'Warning' },
-  { value: 'pink', text: 'Heart' },
-  { value: 'olive', text: 'Conversation' },
+  { color: 'green', value: 'UI', text: 'UI' },
+  { color: 'blue', value: 'Development', text: 'Development' },
+  { color: 'orange', value: 'Bug', text: 'Bug' },
+  { color: 'red', value: 'API', text: 'API' },
+  { color: 'pink', value: 'Feature', text: 'Feature' },
+  { color: 'olive', value: 'QA', text: 'QA' },
 ];
 
 class Card extends Component {
@@ -65,9 +64,8 @@ class Card extends Component {
     const { labels } = this.props;
     const filtered = [];
 
-
-    labels.map((label) => {
-      return labelOptions.forEach((option) => {
+    labels.forEach((label) => {
+      labelOptions.forEach((option) => {
         if (option.value === label) {
           filtered.push(option);
         }
@@ -76,21 +74,18 @@ class Card extends Component {
 
     return labels.length ? filtered.map((option) => {
       return (
-        <Button size="mini" basic key={option.value} color={option.value} compact>
+        <Button size="mini" basic key={option.value} color={option.color} compact>
           {option.text}
         </Button>
       );
     }) : null;
   }
 
-  renderLabels = (label) => {
-
-    return {
-      key: label.value,
-      content: label.text,
-      color: label.value,
-    };
-  }
+  renderLabels = label => ({
+    key: label.value,
+    content: label.value,
+    color: label.color,
+  })
 
   render() {
     const { modalOpen, description } = this.state;
