@@ -18,6 +18,7 @@ export default function (state = {}, action) {
           cardId: action.cardId,
           title: action.title,
           labels: [],
+          comment: [],
         },
       };
     case Cards.UPDATE_CARD:
@@ -85,6 +86,17 @@ export default function (state = {}, action) {
     }
     case Cards.RESET_CARDS:
       return {};
+    case Cards.ADD_COMMENT:
+      return {
+        ...state,
+        [action.cardId]: {
+          ...state[action.cardId],
+          comment: [
+            ...state[action.cardId].comment,
+            action.content,
+          ]
+        }
+      };
     default:
       return state;
   }

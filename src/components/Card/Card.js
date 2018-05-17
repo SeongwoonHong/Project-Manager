@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 
 import { colors } from 'utils/colors';
 import { Cards, Lanes } from 'actions';
+import Comment from '../Comment/Comment';
 
 const labelOptions = [
   { color: 'green', value: 'UI', text: 'UI' },
@@ -137,6 +138,9 @@ class Card extends Component {
               value={description}
             />
           </Modal.Description>
+        </Modal.Content>
+        <Modal.Content scrolling>
+          <Comment {...this.props} />
         </Modal.Content>
         <Modal.Actions>
           <Button type="button" onClick={this.closeModal} icon="cancel" labelPosition="right" content="Cancel" floated="left" />

@@ -7,6 +7,8 @@ export const DELETE_CARD = 'DELETE_CARD';
 export const ADD_LABEL = 'ADD_LABEL';
 export const FETCH_CARDS = 'FETCH_CARDS';
 export const RESET_CARDS = 'RESET_CARDS';
+export const ADD_COMMENT = 'ADD_COMMENT';
+
 /**
  * Action creators
  */
@@ -51,6 +53,14 @@ export function fetchCards() {
 export function resetCards() {
   return {
     type: RESET_CARDS,
+  };
+}
+
+export function addComment(cardId, content) {
+  return {
+    type: ADD_COMMENT,
+    cardId,
+    content,
   };
 }
 
