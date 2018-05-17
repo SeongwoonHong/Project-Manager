@@ -7,7 +7,6 @@ import TimeAgo from 'react-timeago';
 import { Cards } from '../../actions';
 import { colors } from '../../utils/colors';
 
-
 class Comment extends Component {
 
   state = { comment: '', }
@@ -61,6 +60,7 @@ class Comment extends Component {
             placeholder="Add comments..."
             onChange={this.onChangeHandler}
             value={comment}
+            autoHeight
           />
           <Button
             className="comment__button"
@@ -72,7 +72,7 @@ class Comment extends Component {
             positive
             content="Save"
             floated="right"
-            disabled={!comment }
+            disabled={!comment}
           />
         </div>
         <div className="comments__container">
@@ -91,12 +91,13 @@ const CommentsContainer = styled.div`
     display: flex;
     margin-left: auto;
     margin-right: auto;
-    }
-    &__button{
+    
+    &__button {
       grid-row: 1 / -1;
       grid-column: 4;
     }
   }
+
   .comments__container {
     display: flex;
     flex-direction: column;
