@@ -47,6 +47,18 @@ export default function (state = {}, action) {
           cards: state[action.laneId].cards.filter(cardId => cardId !== action.cardId),
         }
       };
+    case Lanes.LANE_MOVE_CARD: {
+      const newCards = state[action.laneId].cards.slice();
+      const [selectedCard] = newCards.splice(action.sourceIndex, 1);
+      newCards.splice(action.destIndex, 0, selectedCard);
+      return {
+        ...state,
+        [action.laneId]: {
+          ...state[action.laneId],
+          cards: newCards,
+        }
+      };
+    }
     default:
       return state;
   }

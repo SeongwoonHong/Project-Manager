@@ -6,6 +6,7 @@ export const MOVE_LANE = 'MOVE_LANE';
 export const DELETE_LANE = 'DELETE_LANE';
 export const LANE_ADD_CARD = 'LANE_ADD_CARD';
 export const LANE_DELETE_CARD = 'LANE_DELETE_CARD';
+export const LANE_MOVE_CARD = 'LANE_MOVE_CARD';
 
 /**
  * Action creators
@@ -45,6 +46,15 @@ export function deleteCard(laneId, cardId) {
     type: LANE_DELETE_CARD,
     laneId,
     cardId,
+  };
+}
+
+export function moveCard(laneId, sourceIndex, destIndex) {
+  return {
+    type: LANE_MOVE_CARD,
+    laneId,
+    sourceIndex,
+    destIndex,
   };
 }
 

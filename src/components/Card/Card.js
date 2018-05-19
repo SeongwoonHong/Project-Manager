@@ -36,7 +36,7 @@ class Card extends Component {
     }
 
     dispatch(Cards.addLabel(cardId, labels));
-    dispatch(Cards.updateCard(cardId, title, description));
+    dispatch(Cards.updateCard(cardId, title.trim(), description));
 
     return this.setState({ modalOpen: false });
   }
@@ -94,16 +94,16 @@ class Card extends Component {
     return (
       <Modal
         trigger={
-          <SemanticCard onClick={this.openModal}>
+          <StyledCard onClick={this.openModal} as="div">
             <SemanticCard.Content >
               <SemanticCard.Header>
                 { this.handleLabels() }
               </SemanticCard.Header>
-              <SemanticCard.Description>
+              <SemanticCard.Description as="pre">
                 { title }
               </SemanticCard.Description>
             </SemanticCard.Content>
-          </SemanticCard>
+          </StyledCard>
         }
         open={modalOpen}
         size="tiny"
@@ -161,5 +161,17 @@ const StyledTextArea = styled(({ className, children, ...rest }) => (
   border-radius: 5px;
   padding: 5px;
   border: 1px solid ${colors.lightGrey};
+`;
+
+const StyledCard = styled(SemanticCard)`
+  &.ui.card {
+    width: initial;
+    margin: 1rem !important;
+
+    &:hover {
+      transform: translateY(-5px);
+      background-color: ${colors.swimLane};
+    }
+  }
 `;
 
