@@ -6,6 +6,7 @@ export const PROJECT_ADD_LANE = 'PROJECT_ADD_LANE';
 export const ADD_CARD = 'ADD_CARD';
 export const ADD_CART = 'ADD_CART';
 export const PROJECT_DELETE_LANE = 'PROJECT_DELETE_LANE';
+export const PROJECT_MOVE_LANE = 'PROJECT_MOVE_LANE';
 /**
  * Action creators
  */
@@ -35,6 +36,14 @@ export function deleteLane(laneId) {
   return {
     type: PROJECT_DELETE_LANE,
     laneId,
+  };
+}
+
+export function moveLane(sourceIndex, destIndex) {
+  return {
+    type: PROJECT_MOVE_LANE,
+    sourceIndex,
+    destIndex,
   };
 }
 
