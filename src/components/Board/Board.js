@@ -21,52 +21,48 @@ class Board extends Component {
       return false;
     }
 
-    if (type === 'CARD') {
-      dispatch(Lanes.moveCard(source.droppableId, source.index, destination.index));
+    // for moving cards
 
-      return false;
-    }
-
-    // to be implemented...
+    return source.droppableId !== destination.droppableId ?
+      dispatch(Lanes.moveCardToOtherLane(source.droppableId, destination.droppableId, source.index, destination.index)) :
+      dispatch(Lanes.moveCardInTheLane(source.droppableId, source.index, destination.index));
   }
 
   render() {
     const { lanes, project } = this.props;
 
     return (
-      <div>
+      <StyledBoardContainer>
         <DragDropContext onDragEnd={this.onDragEnd}>
           <Droppable droppableId="test" type="LANE" direction="horizontal">
             {provided => (
-              <div ref={provided.innerRef} style={{ display: 'inline-block' }}>
-                <StyledBoardContainer>
-                  {
-                    project.lanes.map((laneId, index) => (
-                      <Draggable key={laneId} draggableId={laneId} index={index} style={{ margin: '1rem' }}>
-                        {laneProvided => (
-                          <div
-                            ref={laneProvided.innerRef}
-                            {...laneProvided.draggableProps}
-                            {...laneProvided.dragHandleProps}
-                          >
-                            <SwimLane
-                              lane={lanes[laneId]}
-                              key={laneId}
-                            />
-                            {laneProvided.placeholder}
-                          </div>
-                        )}
-                      </Draggable>
-                    ))
-                  }
-                  {provided.placeholder}
-                </StyledBoardContainer>
+              <div ref={provided.innerRef} style={{ display: 'inline-flex' }}>
+                {
+                  project.lanes.map((laneId, index) => (
+                    <Draggable key={laneId} draggableId={laneId} index={index} style={{ margin: '1rem' }}>
+                      {laneProvided => (
+                        <div
+                          ref={laneProvided.innerRef}
+                          {...laneProvided.draggableProps}
+                          {...laneProvided.dragHandleProps}
+                        >
+                          <SwimLane
+                            lane={lanes[laneId]}
+                            key={laneId}
+                          />
+                          {laneProvided.placeholder}
+                        </div>
+                      )}
+                    </Draggable>
+                  ))
+                }
+                {provided.placeholder}
               </div>
             )}
           </Droppable>
         </DragDropContext>
         <AddLane />
-      </div>
+      </StyledBoardContainer>
     );
   }
 }

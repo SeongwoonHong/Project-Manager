@@ -67,11 +67,12 @@ class AddCard extends Component {
                 />
                 <Button
                   type="button"
-                  negative
                   onClick={this.resetState}
-                  icon="trash"
+                  negative
+                  icon="cancel"
                   labelPosition="right"
                   content="Cancel"
+                  floated="left"
                 />
                 <Button
                   type="button"
@@ -80,6 +81,7 @@ class AddCard extends Component {
                   labelPosition="right"
                   onClick={this.addCardHandler}
                   content="Save"
+                  floated="right"
                 />
               </Form.Field>
             </Form>

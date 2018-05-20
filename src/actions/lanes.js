@@ -7,6 +7,7 @@ export const DELETE_LANE = 'DELETE_LANE';
 export const LANE_ADD_CARD = 'LANE_ADD_CARD';
 export const LANE_DELETE_CARD = 'LANE_DELETE_CARD';
 export const LANE_MOVE_CARD = 'LANE_MOVE_CARD';
+export const LANE_MOVE_CARD_DIFFERENT_LANE = 'LANE_MOVE_CARD_DIFFERENT_LANE';
 
 /**
  * Action creators
@@ -49,10 +50,20 @@ export function deleteCard(laneId, cardId) {
   };
 }
 
-export function moveCard(laneId, sourceIndex, destIndex) {
+export function moveCardInTheLane(laneId, sourceIndex, destIndex) {
   return {
     type: LANE_MOVE_CARD,
     laneId,
+    sourceIndex,
+    destIndex,
+  };
+}
+
+export function moveCardToOtherLane(sourceId, destId, sourceIndex, destIndex) {
+  return {
+    type: LANE_MOVE_CARD_DIFFERENT_LANE,
+    sourceId,
+    destId,
     sourceIndex,
     destIndex,
   };

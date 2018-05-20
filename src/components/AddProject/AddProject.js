@@ -44,8 +44,8 @@ class AddProject extends Component {
       <Form.Field onChange={this.onChangeHandler}>
         <input placeholder="Project name" />
       </Form.Field>
-      <Button type="submit" color="green">Create</Button>
-      <Button type="button" color="green" onClick={this.onCancelHandler}>Cancel</Button>
+      <Button type="submit" positive floated="right">Create</Button>
+      <Button type="button" negative onClick={this.onCancelHandler} floated="left">Cancel</Button>
     </Form>
   )
 

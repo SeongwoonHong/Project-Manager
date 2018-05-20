@@ -59,6 +59,23 @@ export default function (state = {}, action) {
         }
       };
     }
+    case Lanes.LANE_MOVE_CARD_DIFFERENT_LANE: {
+      const sourceCards = state[action.sourceId].cards.slice();
+      const destCards = state[action.destId].cards.slice();
+      const [selectedCard] = sourceCards.splice(action.sourceIndex, 1);
+      destCards.splice(action.destIndex, 0, selectedCard);
+      return {
+        ...state,
+        [action.sourceId]: {
+          ...state[action.sourceId],
+          cards: sourceCards,
+        },
+        [action.destId]: {
+          ...state[action.destId],
+          cards: destCards,
+        },
+      };
+    }
     default:
       return state;
   }

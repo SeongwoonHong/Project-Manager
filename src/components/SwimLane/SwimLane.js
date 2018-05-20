@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Header, Icon, Segment } from 'semantic-ui-react';
+import { Header, Icon, Segment, Modal, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 
@@ -18,26 +18,8 @@ class SwimLane extends Component {
 
   onCancelHandler = () => this.setState({ isEditing: false });
 
-  // onDragEnd = ({ source, destination, type }) => {
-  //   const { dispatch, lane } = this.props;
-
-  //   if (!destination) {
-  //     return false;
-  //   }
-
-  //   if (type === 'CARD') {
-  //     dispatch(Lanes.moveCard(lane.laneId, source.index, destination.index));
-
-  //     return false;
-  //   }
-
-  //   // to be implemented...
-  // }
-
   getListStyle = isDraggingOver => ({
     background: isDraggingOver ? 'lightgrey' : 'lightblue',
-    marginRight: '1rem',
-    width: '300px',
   });
 
   closeHeader = () => this.setState({ isHeaderOpened: false });
@@ -57,9 +39,22 @@ class SwimLane extends Component {
     return (
       <Droppable droppableId={lane.laneId} type="CARD">
         {(provided, snapshot) => (
-          <div ref={provided.innerRef}>
+          <div ref={provided.innerRef} style={{ width: '300px', marginRight: '1rem' }}>
             <StyledSwimLaneContainer style={this.getListStyle(snapshot.isDraggingOver)}>
-              <StyledHeader>{ lane.name }<Icon name="trash" onClick={this.laneDeleteHandler} /></StyledHeader>
+              <StyledHeader>
+                { lane.name }
+                <Modal
+                  trigger={<Icon name="trash" />}
+                  size="tiny"
+                >
+                  <Modal.Header>
+                    <Icon name="warning circle" style={{ color: colors.red }} />Are you sure you want to delete <span style={{ color: colors.red }}>{lane.name}</span> ?
+                  </Modal.Header>
+                  <Modal.Actions>
+                    <Button type="button" negative icon="trash" onClick={this.laneDeleteHandler} labelPosition="right" content="Delete" />
+                  </Modal.Actions>
+                </Modal>
+              </StyledHeader>
               {
                 lane.cards.map((cardId, index) => (
                   <Draggable key={cardId} draggableId={cardId} index={index} style={{ margin: '1rem' }}>
