@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Header, Icon, Dropdown, DropdownItem } from 'semantic-ui-react';
+import { Header, Icon, Dropdown, DropdownItem, Modal, Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import { App } from 'actions';
 import { colors } from 'utils/colors';
@@ -14,6 +15,16 @@ const options = [
 ];
 
 class ProjectHeader extends Component {
+  deleteProject = () => {
+    const { history } = this.props;
+
+    history.push('/');
+    localStorage.removeItem('pm-project');
+    localStorage.removeItem('pm-cards');
+
+    return localStorage.removeItem('pm-lanes');
+  }
+
   changeBgColor = (e, { children }) => {
     const { dispatch } = this.props;
 
@@ -26,7 +37,17 @@ class ProjectHeader extends Component {
 
     return (
       <StyledHeader as="h2">
-        <Icon name="folder open outline" />
+        <Modal
+          trigger={<Icon name="trash" />}
+          size="tiny"
+        >
+          <Modal.Header>
+            <Icon name="warning circle" style={{ color: colors.red }} />Are you sure you want to delete project <span style={{ color: colors.red }}>{name}</span> ?
+          </Modal.Header>
+          <Modal.Actions>
+            <Button type="button" negative icon="trash" onClick={this.deleteProject} labelPosition="right" content="Delete" />
+          </Modal.Actions>
+        </Modal>
         <Header.Content>
           { name }
         </Header.Content>
@@ -49,7 +70,7 @@ class ProjectHeader extends Component {
 
 export default connect(state => ({
   app: state.App,
-}))(ProjectHeader);
+}))(withRouter(ProjectHeader));
 
 const StyledHeader = styled(({ className, children, ...rest }) => (
   <Header className={className} { ...rest }>
@@ -61,6 +82,7 @@ const StyledHeader = styled(({ className, children, ...rest }) => (
 
     i {
       display: inline-block;
+      cursor: pointer;
     }
 
     .content {
