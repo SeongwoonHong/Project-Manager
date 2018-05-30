@@ -18,7 +18,7 @@ export default function (state = {}, action) {
           cardId: action.cardId,
           title: action.title,
           labels: [],
-          comment: [],
+          comments: [],
         },
       };
     case Cards.UPDATE_CARD:
@@ -57,7 +57,7 @@ export default function (state = {}, action) {
           return result;
         }, {})
       };
-    case Cards.ADD_LABEL:
+    case Cards.ADD_LABEL: {
       localStorage.setItem('pm-cards', JSON.stringify({
         ...state,
         [action.cardId]: {
@@ -86,17 +86,81 @@ export default function (state = {}, action) {
     }
     case Cards.RESET_CARDS:
       return {};
-    case Cards.ADD_COMMENT:
+    case Cards.CARD_ADD_COMMENT: {
       return {
         ...state,
         [action.cardId]: {
           ...state[action.cardId],
-          comment: [
-            ...state[action.cardId].comment,
-            action.content,
+          comments: [
+            ...state[action.cardId].comments,
+            {
+              comment: action.comment,
+              time: action.time,
+              isEdit: action.isEdit,
+            }
           ]
         }
       };
+    }
+    case Cards.CARD_UPDATE_COMMENT: {
+      const { time } = action.comment;
+      const preservState =
+          state[action.cardId].comments.filter(
+            comment => comment.time !== time
+          );
+
+      return {
+        ...state,
+        [action.cardId]: {
+          ...state[action.cardId],
+          comments: [
+            ...preservState,
+            {
+              comment: action.newComment,
+              time,
+              isEdit: false
+            }
+          ]
+        }
+      };
+    }
+    case Cards.CARD_EDIT_COMMENT: {
+      const { time, isEdit, comment } = action.comment;
+
+      const preservState =
+          state[action.cardId].comments.filter(
+            singleComment => singleComment.time !== time
+          );
+
+      return {
+        ...state,
+        [action.cardId]: {
+          ...state[action.cardId],
+          comments: [
+            ...preservState,
+            {
+              comment,
+              time,
+              isEdit: !isEdit,
+            }
+          ]
+        }
+      };
+    }
+    case Cards.CARD_REMOVE_COMMENT: {
+      const newState = state[action.cardId].comments.filter(comment => comment.time !== action.time);
+
+      return {
+        ...state,
+        [action.cardId]: {
+          ...state[action.cardId],
+          comments: [
+            ...newState
+          ]
+        }
+      };
+    }
+
     default:
       return state;
   }
