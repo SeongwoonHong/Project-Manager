@@ -41,8 +41,6 @@ class Comment extends Component {
 
 
   render() {
-
-    console.log(`comments ${this.props.comments}`);
     const { comment } = this.state;
     const { comments } = this.props;
 

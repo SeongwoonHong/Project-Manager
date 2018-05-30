@@ -91,7 +91,7 @@ class Card extends Component {
   render() {
     const { modalOpen, description } = this.state;
     const { title, cards, cardId } = this.props;
-    console.log(`From Card.js ${JSON.stringify(cards[cardId])}`);
+
     return (
       <Modal
         trigger={
