@@ -8,6 +8,10 @@ export const ADD_LABEL = 'ADD_LABEL';
 export const FETCH_CARDS = 'FETCH_CARDS';
 export const RESET_CARDS = 'RESET_CARDS';
 export const ADD_COMMENT = 'ADD_COMMENT';
+export const CARD_ADD_COMMENT = 'CARD_ADD_COMMENT';
+export const CARD_EDIT_COMMENT = 'CARD_EDIT_COMMENT';
+export const CARD_UPDATE_COMMENT = 'CARD_UPDATE_COMMENT';
+export const CARD_REMOVE_COMMENT = 'CARD_REMOVE_COMMENT';
 
 /**
  * Action creators
@@ -56,11 +60,36 @@ export function resetCards() {
   };
 }
 
-export function addComment(cardId, content) {
+export function addComment(cardId, comment, time) {
   return {
-    type: ADD_COMMENT,
+    type: CARD_ADD_COMMENT,
     cardId,
-    content,
+    comment,
+    time,
   };
 }
 
+export function editComment(cardId, comment) {
+  return {
+    type: CARD_EDIT_COMMENT,
+    cardId,
+    comment,
+  };
+}
+
+export function updateComment(cardId, comment, newComment) {
+  return {
+    type: CARD_UPDATE_COMMENT,
+    cardId,
+    comment,
+    newComment,
+  };
+}
+
+export function removeComment(cardId, time) {
+  return {
+    type: CARD_REMOVE_COMMENT,
+    cardId,
+    time,
+  };
+}
