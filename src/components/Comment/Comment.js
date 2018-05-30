@@ -2,31 +2,28 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, TextArea } from 'semantic-ui-react';
 import styled from 'styled-components';
-import TimeAgo from 'react-timeago';
 
 import { Cards } from '../../actions';
 import { colors } from '../../utils/colors';
+import EditComment from '../EditComment/EditComment';
+
 
 class Comment extends Component {
 
-  state = { comment: '', }
+  state = { comment: '', editingComment: '' }
 
   onChangeHandler = e => this.setState({ comment: e.target.value })
 
   getComment = () => {
     const { cards, cardId } = this.props;
 
-    return cards[cardId].comment.map((singleComment) => {
-      const index = singleComment.indexOf(':');
-      const comment = singleComment.slice(0, index);
-      const time = singleComment.slice(index + 1).valueOf();
-
+    return cards[cardId].comments && cards[cardId].comments.map((comment) => {
       return (
-        <div className="comments__container--each" key={time}>
-          <li className="comments__container--each_li" >
-            {`${comment}  `}
-            <TimeAgo date={time} />
-          </li>
+        <div className="comments__container--each" key={comment.time}>
+          <EditComment
+            currentComment={comment}
+            cardId={cardId}
+          />
         </div>
       );
     });
@@ -35,20 +32,19 @@ class Comment extends Component {
   commentSaveHandler = () => {
     const { dispatch, cardId } = this.props;
     const { comment } = this.state;
+    const time = new Date();
+    const isEdit = false;
 
-    dispatch(Cards.addComment(cardId, `${comment}:${new Date()}`));
-
+    dispatch(Cards.addComment(cardId, comment, time, isEdit));
     return this.setState({ comment: '' });
   }
 
 
-  fometter = () => {
-
-  }
-
   render() {
+
+    console.log(`comments ${this.props.comments}`);
     const { comment } = this.state;
-    const { cards, cardId } = this.props;
+    const { comments } = this.props;
 
     return (
       <CommentsContainer>
@@ -60,7 +56,6 @@ class Comment extends Component {
             placeholder="Add comments..."
             onChange={this.onChangeHandler}
             value={comment}
-            autoHeight
           />
           <Button
             className="comment__button"
@@ -72,11 +67,11 @@ class Comment extends Component {
             positive
             content="Save"
             floated="right"
-            disabled={!comment}
+            disabled={!comment }
           />
         </div>
         <div className="comments__container">
-          {cards[cardId].comment && this.getComment() }
+          {comments && this.getComment() }
         </div>
       </CommentsContainer>
     );
@@ -91,7 +86,7 @@ const CommentsContainer = styled.div`
     display: flex;
     margin-left: auto;
     margin-right: auto;
-    
+
     &__button {
       grid-row: 1 / -1;
       grid-column: 4;
