@@ -8,7 +8,8 @@ export const LANE_ADD_CARD = 'LANE_ADD_CARD';
 export const LANE_DELETE_CARD = 'LANE_DELETE_CARD';
 export const LANE_MOVE_CARD = 'LANE_MOVE_CARD';
 export const LANE_MOVE_CARD_DIFFERENT_LANE = 'LANE_MOVE_CARD_DIFFERENT_LANE';
-
+export const FETCH_LANES = 'FETCH_LANES';
+export const RESET_LANES = 'RESET_LANES';
 /**
  * Action creators
  */
@@ -66,6 +67,18 @@ export function moveCardToOtherLane(sourceId, destId, sourceIndex, destIndex) {
     destId,
     sourceIndex,
     destIndex,
+  };
+}
+
+export function fetchLanes() {
+  return {
+    type: FETCH_LANES,
+  };
+}
+
+export function resetLanes() {
+  return {
+    type: RESET_LANES,
   };
 }
 

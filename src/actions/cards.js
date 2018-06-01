@@ -5,7 +5,8 @@ export const ADD_CARD = 'ADD_CARD';
 export const UPDATE_CARD = 'UPDATE_CARD';
 export const DELETE_CARD = 'DELETE_CARD';
 export const ADD_LABEL = 'ADD_LABEL';
-
+export const FETCH_CARDS = 'FETCH_CARDS';
+export const RESET_CARDS = 'RESET_CARDS';
 /**
  * Action creators
  */
@@ -40,3 +41,16 @@ export function addLabel(cardId, content) {
     content,
   };
 }
+
+export function fetchCards() {
+  return {
+    type: FETCH_CARDS,
+  };
+}
+
+export function resetCards() {
+  return {
+    type: RESET_CARDS,
+  };
+}
+

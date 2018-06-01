@@ -90,4 +90,5 @@ const StyledAddLaneContainer = styled.div`
   width: 240px;
   display: inline-block;
   position: relative;
+  margin-right: 2rem;
 `;

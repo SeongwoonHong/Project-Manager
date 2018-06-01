@@ -45,6 +45,7 @@ class Board extends Component {
                           ref={laneProvided.innerRef}
                           {...laneProvided.draggableProps}
                           {...laneProvided.dragHandleProps}
+                          className="lane-wrapper"
                         >
                           <SwimLane
                             lane={lanes[laneId]}

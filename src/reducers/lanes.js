@@ -20,14 +20,6 @@ export default function (state = {}, action) {
           cards: [],
         },
       };
-    case Lanes.MOVE_LANE: // Not sure about this yet..
-      return {
-        // ...state,
-        // [action.id]: {
-        //   ...state[action.id],
-        //   ...action.params,
-        // }
-      };
     case Lanes.LANE_ADD_CARD:
       localStorage.setItem('pm-lanes', JSON.stringify({
         ...state,
@@ -135,6 +127,15 @@ export default function (state = {}, action) {
         },
       };
     }
+    case Lanes.FETCH_LANES: {
+      const lanes = JSON.parse(localStorage.getItem('pm-lanes')) || {};
+
+      return {
+        ...lanes,
+      };
+    }
+    case Lanes.RESET_LANES:
+      return {};
     default:
       return state;
   }

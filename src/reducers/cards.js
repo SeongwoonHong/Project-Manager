@@ -76,6 +76,15 @@ export default function (state = {}, action) {
           ],
         }
       };
+    case Cards.FETCH_CARDS: {
+      const cards = JSON.parse(localStorage.getItem('pm-cards')) || {};
+
+      return {
+        ...cards,
+      };
+    }
+    case Cards.RESET_CARDS:
+      return {};
     default:
       return state;
   }

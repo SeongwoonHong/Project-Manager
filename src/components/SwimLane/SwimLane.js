@@ -39,7 +39,7 @@ class SwimLane extends Component {
     return (
       <Droppable droppableId={lane.laneId} type="CARD">
         {(provided, snapshot) => (
-          <div ref={provided.innerRef} style={{ width: '300px', marginRight: '1rem' }}>
+          <div ref={provided.innerRef} style={{ width: '300px', marginRight: '1rem', minHeight: '150px', maxHeight: '600px', overflow: 'auto' }}>
             <StyledSwimLaneContainer style={this.getListStyle(snapshot.isDraggingOver)}>
               <StyledHeader>
                 { lane.name }

@@ -47,8 +47,8 @@ export default function (state = initialState, action) {
     case Project.PROJECT_MOVE_LANE: {
       const newProject = state.lanes.slice();
       const [selectedLane] = newProject.splice(action.sourceIndex, 1);
-      newProject.splice(action.destIndex, 0, selectedLane);
 
+      newProject.splice(action.destIndex, 0, selectedLane);
       localStorage.setItem('pm-project', JSON.stringify({
         ...state,
         lanes: newProject,
@@ -59,6 +59,23 @@ export default function (state = initialState, action) {
         lanes: newProject,
       };
     }
+    case Project.FETCH_LANE_IDS: {
+      const laneIds = JSON.parse(localStorage.getItem('pm-project')).lanes;
+
+      return {
+        ...state,
+        lanes: [
+          ...laneIds
+        ],
+      };
+    }
+    case Project.DELETE_PROJECT:
+      localStorage.removeItem('pm-project');
+      localStorage.removeItem('pm-cards');
+      localStorage.removeItem('pm-lanes');
+      action.history.push('/');
+
+      return initialState;
     default:
       return state;
   }

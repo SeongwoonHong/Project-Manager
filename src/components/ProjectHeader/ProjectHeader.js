@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { App } from 'actions';
+import { App, Project, Lanes, Cards } from 'actions';
 import { colors } from 'utils/colors';
 
 const options = [
@@ -16,13 +16,12 @@ const options = [
 
 class ProjectHeader extends Component {
   deleteProject = () => {
-    const { history } = this.props;
+    const { dispatch, history } = this.props;
 
-    history.push('/');
-    localStorage.removeItem('pm-project');
-    localStorage.removeItem('pm-cards');
+    dispatch(Project.deleteProject(history));
+    dispatch(Lanes.resetLanes());
 
-    return localStorage.removeItem('pm-lanes');
+    return dispatch(Cards.resetCards());
   }
 
   changeBgColor = (e, { children }) => {
@@ -90,9 +89,9 @@ const StyledHeader = styled(({ className, children, ...rest }) => (
     }
 
     .ui.inline.dropdown {
-      position: absolute;
-      right: 0;
-      top: 0;
+      position: fixed;
+      right: 1rem;
+      top: 5.5rem;
       border: 2px solid ${colors.lightGrey};
       transition: all 0.2s ease-in;
       border-radius: 5px;

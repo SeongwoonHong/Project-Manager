@@ -49,7 +49,7 @@ class AddCard extends Component {
     const { isEditing, title } = this.state;
 
     return (
-      <div>
+      <StyledDiv>
         {
           !isEditing ?
             <StyledIconContainer>
@@ -86,12 +86,16 @@ class AddCard extends Component {
               </Form.Field>
             </Form>
         }
-      </div>
+      </StyledDiv>
     );
   }
 }
 
 export default connect()(AddCard);
+
+const StyledDiv = styled.div`
+  margin-bottom: 2rem;
+`;
 
 const StyledIconContainer = styled.div`
   position: relative;
