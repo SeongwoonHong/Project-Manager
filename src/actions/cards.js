@@ -9,7 +9,6 @@ export const FETCH_CARDS = 'FETCH_CARDS';
 export const RESET_CARDS = 'RESET_CARDS';
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const CARD_ADD_COMMENT = 'CARD_ADD_COMMENT';
-export const CARD_EDIT_COMMENT = 'CARD_EDIT_COMMENT';
 export const CARD_UPDATE_COMMENT = 'CARD_UPDATE_COMMENT';
 export const CARD_REMOVE_COMMENT = 'CARD_REMOVE_COMMENT';
 
@@ -20,7 +19,7 @@ export function addCard(title, cardId) {
   return {
     type: ADD_CARD,
     title,
-    cardId,
+    cardId
   };
 }
 
@@ -29,14 +28,14 @@ export function updateCard(cardId, title, description) {
     type: UPDATE_CARD,
     cardId,
     title,
-    description,
+    description
   };
 }
 
 export function deleteCard(cardId) {
   return {
     type: DELETE_CARD,
-    cardId,
+    cardId
   };
 }
 
@@ -44,7 +43,7 @@ export function addLabel(cardId, content) {
   return {
     type: ADD_LABEL,
     cardId,
-    content,
+    content
   };
 }
 
@@ -69,20 +68,13 @@ export function addComment(cardId, comment, time) {
   };
 }
 
-export function editComment(cardId, comment) {
-  return {
-    type: CARD_EDIT_COMMENT,
-    cardId,
-    comment,
-  };
-}
-
-export function updateComment(cardId, comment, newComment) {
+export function updateComment(cardId, time, newComment, isEdit = false) {
   return {
     type: CARD_UPDATE_COMMENT,
     cardId,
-    comment,
+    time,
     newComment,
+    isEdit
   };
 }
 
@@ -90,6 +82,6 @@ export function removeComment(cardId, time) {
   return {
     type: CARD_REMOVE_COMMENT,
     cardId,
-    time,
+    time
   };
 }

@@ -6,82 +6,68 @@ import TimeAgo from 'react-timeago';
 import { Cards } from 'actions';
 
 class EditComment extends Component {
+  static defaultProps = { comment: '', time: 0, isEdit: false, cardId: '' };
+  state = this.initialState;
+  initialState = { editing: false, term: this.props.comment };
 
-  state = { editing: this.props.currentComment.comment }
+  toggleEditing = () => {
+    this.setState(({ editing }) => ({ editing: !editing }));
+  };
 
   handleChange = (e, data) => {
-    this.setState({ editing: data.value });
-  }
-
-  handleEdit = () => {
-    const { dispatch, cardId, currentComment } = this.props;
-
-    return dispatch(Cards.editComment(cardId, currentComment));
-  }
+    this.setState({ term: data.value });
+  };
 
   handleSave = () => {
-    const { dispatch, cardId, currentComment } = this.props;
-    const { editing } = this.state;
+    const { dispatch, cardId, comment, isEdit, time } = this.props;
+    const { term } = this.state;
 
-    return dispatch(Cards.updateComment(cardId, currentComment, editing));
-  }
+    if (comment !== term) {
+      dispatch(Cards.updateComment(cardId, time, term, isEdit));
+    }
+
+    return this.toggleEditing();
+  };
 
   handleRemove = () => {
-    const { dispatch, cardId, currentComment: { time } } = this.props;
+    const { dispatch, cardId, time } = this.props;
 
-    return dispatch(Cards.removeComment(cardId, time));
-  }
+    dispatch(Cards.removeComment(cardId, time));
+    return this.toggleEditing();
+  };
 
   render() {
-    const { editing } = this.state;
-    const { comment, time, isEdit } = this.props.currentComment;
+    const { editing, term } = this.state;
+    const { comment, time, isEdit } = this.props;
     return (
       <div key={time}>
-        {
-          isEdit ?
-            <div>
-              <Input
-                type="text"
-                value={editing}
-                onChange={this.handleChange}
-                size="tiny"
-              />
-              <Button
-                size="tiny"
-                onClick={this.handleSave}
-                positive
-              >
-                Save
-              </Button>
-              <Button
-                size="tiny"
-                onClick={this.handleEdit}
-                negative
-              >
-                Cancel
-              </Button>
-            </div>
-            :
-            <div>
-              {comment}
-              { ' ' }
-              <TimeAgo date={time} live={false} />
-              <Button
-                size="tiny"
-                onClick={this.handleEdit}
-                positive
-              >
-                Edit
-              </Button>
-              <Button
-                size="tiny"
-                onClick={this.handleRemove}
-                negative
-              >
-                Remove
-              </Button>
-            </div>
-        }
+        {editing ? (
+          <div>
+            <Input
+              type="text"
+              value={term}
+              onChange={this.handleChange}
+              size="tiny"
+            />
+            <Button size="tiny" onClick={this.handleSave} positive>
+              Save
+            </Button>
+            <Button size="tiny" onClick={this.toggleEditing} negative>
+              Cancel
+            </Button>
+          </div>
+        ) : (
+          <div>
+            {comment} <TimeAgo date={time} live={false} />
+            <Button size="tiny" onClick={this.toggleEditing} positive>
+              Edit
+            </Button>
+            <Button size="tiny" onClick={this.handleRemove} negative>
+              Remove
+            </Button>
+            {isEdit ? '  edited' : null}
+          </div>
+        )}
       </div>
     );
   }
