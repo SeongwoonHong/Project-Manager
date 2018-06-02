@@ -10,7 +10,6 @@ class Navigation extends Component {
     return (
       <StyledMenu>
         <PM to="/" style={{ fontWeight: 'bold' }}><Icon name="desktop" size="big" />Project Manager</PM>
-        <PM to="/signup"><Icon name="sign in" size="big" />Sign In</PM>
       </StyledMenu>
     );
   }
@@ -42,13 +41,6 @@ const PM = styled(NavLink)`
     color: ${colors.white};
     margin-right: 10px;
     transition: all 0.2s ease-in;
-  }
-
-  &:last-of-type {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 0;
   }
 
   &:hover {
