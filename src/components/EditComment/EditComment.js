@@ -1,14 +1,13 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Button, Input } from 'semantic-ui-react';
-import TimeAgo from 'react-timeago';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Button, Input } from "semantic-ui-react";
+import TimeAgo from "react-timeago";
 
-import { Cards } from 'actions';
+import { Cards } from "actions";
 
 class EditComment extends Component {
-  static defaultProps = { comment: '', time: 0, isEdit: false, cardId: '' };
-  state = this.initialState;
-  initialState = { editing: false, term: this.props.comment };
+  static defaultProps = { comment: "", time: 0, isEdit: false, cardId: "" };
+  state = { editing: false, term: this.props.comment };
 
   toggleEditing = () => {
     this.setState(({ editing }) => ({ editing: !editing }));
@@ -65,7 +64,7 @@ class EditComment extends Component {
             <Button size="tiny" onClick={this.handleRemove} negative>
               Remove
             </Button>
-            {isEdit ? '  edited' : null}
+            {isEdit ? "  edited" : null}
           </div>
         )}
       </div>
