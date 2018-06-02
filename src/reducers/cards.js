@@ -10,7 +10,8 @@ export default function (state = {}, action) {
           [action.cardId]: {
             cardId: action.cardId,
             title: action.title,
-            labels: []
+            labels: [],
+            comments: [],
           }
         })
       );
@@ -94,7 +95,25 @@ export default function (state = {}, action) {
     }
     case Cards.RESET_CARDS:
       return {};
-    case Cards.CARD_ADD_COMMENT: {
+    case Cards.CARD_ADD_COMMENT:
+      localStorage.setItem(
+        'pm-cards',
+        JSON.stringify({
+          ...state,
+          [action.cardId]: {
+            ...state[action.cardId],
+            comments: [
+              ...state[action.cardId].comments,
+              {
+                comment: action.comment,
+                time: action.time,
+                isEdit: false,
+              }
+            ]
+          }
+        })
+      );
+
       return {
         ...state,
         [action.cardId]: {
@@ -104,39 +123,38 @@ export default function (state = {}, action) {
             {
               comment: action.comment,
               time: action.time,
-              isEdit: action.isEdit
+              isEdit: false,
             }
           ]
         }
       };
-    }
     case Cards.CARD_UPDATE_COMMENT: {
-      const { comments } = state[action.cardId];
-      let index;
-
-      comments.filter((comment) => {
-        if (comment.time === action.time) {
-          index = comments.indexOf(comment);
-        }
-        return index;
-      });
-
-      const preservedState = comments.filter(
-        comment => comment.time !== action.time
-      );
-
-      const newState = {
+      const newComment = {
         comment: action.newComment,
         time: action.time,
         isEdit: true
       };
-      preservedState.splice(index, 0, newState);
+
+      localStorage.setItem(
+        'pm-cards',
+        JSON.stringify({
+          ...state,
+          [action.cardId]: {
+            ...state[action.cardId],
+            comments: state[action.cardId].comments.map(
+              comment => (comment.time === action.time ? newComment : comment)
+            ),
+          }
+        })
+      );
 
       return {
         ...state,
         [action.cardId]: {
           ...state[action.cardId],
-          comments: [...preservedState]
+          comments: state[action.cardId].comments.map(
+            comment => (comment.time === action.time ? newComment : comment)
+          ),
         }
       };
     }
@@ -144,6 +162,17 @@ export default function (state = {}, action) {
     case Cards.CARD_REMOVE_COMMENT: {
       const newState = state[action.cardId].comments.filter(
         comment => comment.time !== action.time
+      );
+
+      localStorage.setItem(
+        'pm-cards',
+        JSON.stringify({
+          ...state,
+          [action.cardId]: {
+            ...state[action.cardId],
+            comments: [...newState]
+          }
+        })
       );
 
       return {

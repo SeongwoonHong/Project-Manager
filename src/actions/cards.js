@@ -68,13 +68,12 @@ export function addComment(cardId, comment, time) {
   };
 }
 
-export function updateComment(cardId, time, newComment, isEdit = false) {
+export function updateComment(cardId, time, newComment) {
   return {
     type: CARD_UPDATE_COMMENT,
     cardId,
     time,
     newComment,
-    isEdit
   };
 }
 

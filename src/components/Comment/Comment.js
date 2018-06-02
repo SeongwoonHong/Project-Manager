@@ -3,14 +3,13 @@ import { connect } from 'react-redux';
 import { Button, TextArea } from 'semantic-ui-react';
 import styled from 'styled-components';
 
-import { Cards } from '../../actions';
-import { colors } from '../../utils/colors';
-import EditComment from '../EditComment/EditComment';
+import { Cards } from 'actions';
+import { colors } from 'utils/colors';
+import EditComment from 'components/EditComment/EditComment';
 
 class Comment extends Component {
   state = {
     comment: '',
-    editingComment: ''
   };
 
   onChangeHandler = e => this.setState({ comment: e.target.value });
@@ -19,19 +18,16 @@ class Comment extends Component {
     const { cards, cardId } = this.props;
 
     return (
-      cards[cardId].comments &&
-      cards[cardId].comments.map((comment) => {
-        return (
-          <div className="comments__container--each" key={comment.time}>
-            <EditComment
-              comment={comment.comment}
-              time={comment.time}
-              isEdit={comment.isEdit}
-              cardId={cardId}
-            />
-          </div>
-        );
-      })
+      cards[cardId].comments.map(comment => (
+        <div className="comments__container--each" key={comment.time}>
+          <EditComment
+            comment={comment.comment}
+            time={comment.time}
+            isEdit={comment.isEdit}
+            cardId={cardId}
+          />
+        </div>
+      ))
     );
   };
 
@@ -39,15 +35,14 @@ class Comment extends Component {
     const { dispatch, cardId } = this.props;
     const { comment } = this.state;
     const time = new Date();
-    const isEdit = false;
 
-    dispatch(Cards.addComment(cardId, comment, time, isEdit));
+    dispatch(Cards.addComment(cardId, comment, time));
+
     return this.setState({ comment: '' });
   };
 
   render() {
     const { comment } = this.state;
-    const { comments } = this.props;
 
     return (
       <CommentsContainer>
@@ -74,7 +69,7 @@ class Comment extends Component {
           />
         </div>
         <div className="comments__container">
-          {comments && this.getComment()}
+          { this.getComment() }
         </div>
       </CommentsContainer>
     );
@@ -104,11 +99,8 @@ const CommentsContainer = styled.div`
 
     &--each {
       min-width: 5%;
-      max-width: max-content;
-      border: 1px solid white;
       line-height: 1.7rem;
-      margin: 5px 5px;
-      background-color: #f0fff7;
+      margin: 5px 0px;
       color: ${colors.grey};
       overflow-wrap: break-word;
     }
@@ -127,3 +119,4 @@ const StyledTextArea = styled(({ className, children, ...rest }) => (
   padding: 5px;
   border: 1px solid ${colors.lightGrey};
 `;
+
