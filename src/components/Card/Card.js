@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 
 import { colors } from 'utils/colors';
 import { Cards, Lanes } from 'actions';
+import Comment from 'components/Comment/Comment';
 
 const labelOptions = [
   { color: 'green', value: 'UI', text: 'UI' },
@@ -89,7 +90,7 @@ class Card extends Component {
 
   render() {
     const { modalOpen, description } = this.state;
-    const { title } = this.props;
+    const { title, cards, cardId } = this.props;
 
     return (
       <Modal
@@ -138,17 +139,46 @@ class Card extends Component {
             />
           </Modal.Description>
         </Modal.Content>
+        <Modal.Content scrolling>
+          <Comment
+            {...this.props}
+            comments={cards[cardId].comments}
+          />
+        </Modal.Content>
         <Modal.Actions>
-          <Button type="button" onClick={this.closeModal} icon="cancel" labelPosition="right" content="Cancel" floated="left" />
-          <Button type="button" negative icon="trash" onClick={this.deleteHandler} labelPosition="right" content="Delete" />
-          <Button type="button" positive icon="checkmark" labelPosition="right" onClick={this.onSaveHandler} content="Save" />
+          <Button
+            type="button"
+            onClick={this.closeModal}
+            icon="cancel"
+            labelPosition="right"
+            content="Cancel"
+            floated="left"
+          />
+          <Button
+            type="button"
+            negative
+            icon="trash"
+            onClick={this.deleteHandler}
+            labelPosition="right"
+            content="Delete"
+          />
+          <Button
+            type="button"
+            positive
+            icon="checkmark"
+            labelPosition="right"
+            onClick={this.onSaveHandler}
+            content="Save"
+          />
         </Modal.Actions>
       </Modal>
     );
   }
 }
 
-export default connect()(Card);
+export default connect(state => ({
+  cards: state.Cards
+}))(Card);
 
 const StyledTextArea = styled(({ className, children, ...rest }) => (
   <TextArea className={className} {...rest}>
