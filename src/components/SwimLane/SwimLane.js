@@ -10,19 +10,9 @@ import Card from 'components/Card/Card';
 import AddCard from 'components/AddCard/AddCard';
 
 class SwimLane extends Component {
-  state = {
-    isEditing: false,
-    title: '',
-    isHeaderOpened: false,
-  }
-
-  onCancelHandler = () => this.setState({ isEditing: false });
-
   getListStyle = isDraggingOver => ({
     background: isDraggingOver ? 'lightgrey' : 'lightblue',
   });
-
-  closeHeader = () => this.setState({ isHeaderOpened: false });
 
   laneDeleteHandler = () => {
     const { lane } = this.props;

@@ -40,6 +40,7 @@
     "consistent-return": 0,
     "no-unused-expressions": 0,
     "react/forbid-prop-types": 0,
+    "react/no-unused-state": "error",
     "max-len": 0
   }
 }
