@@ -15,10 +15,10 @@ class Comment extends Component {
   onChangeHandler = e => this.setState({ comment: e.target.value });
 
   getComment = () => {
-    const { cards, cardId } = this.props;
+    const { comments, cardId } = this.props;
 
     return (
-      cards[cardId].comments.map(comment => (
+      comments.map(comment => (
         <div className="comments__container--each" key={comment.time}>
           <EditComment
             comment={comment.comment}

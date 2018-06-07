@@ -55,10 +55,7 @@ class SwimLane extends Component {
                         {...cardProvided.dragHandleProps}
                       >
                         <Card
-                          title={cards[cardId].title}
-                          cardId={cards[cardId].cardId}
-                          description={cards[cardId].description}
-                          labels={cards[cardId].labels}
+                          card={cards[cardId]}
                           laneId={lane.laneId}
                           key={cardId}
                         />

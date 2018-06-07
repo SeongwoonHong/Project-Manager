@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Header, Card as SemanticCard, Button, TextArea, Dropdown } from 'semantic-ui-react';
+import { Modal, Header, Card as SemanticCard, Button, TextArea, Dropdown, Icon } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -23,12 +23,13 @@ class Card extends Component {
     description: '',
     modalOpen: false,
     labels: [],
-    ...this.props,
+    ...this.props.card,
   }
 
   onSaveHandler = () => {
     const { title, description, labels } = this.state;
-    const { dispatch, cardId } = this.props;
+    const { dispatch } = this.props;
+    const { cardId } = this.props.card;
 
     if (!title.trim()) {
       return toast.error('Title cannot be empty', {
@@ -45,7 +46,8 @@ class Card extends Component {
   onChangeHandler = (e, { name, value }) => this.setState({ [name]: value });
 
   deleteHandler = () => {
-    const { dispatch, laneId, cardId } = this.props;
+    const { dispatch } = this.props;
+    const { laneId, cardId } = this.props.card;
 
     dispatch(Cards.deleteCard(cardId));
     dispatch(Lanes.deleteCard(laneId, cardId));
@@ -53,16 +55,16 @@ class Card extends Component {
     return this.setState({ modalOpen: false });
   }
 
-  resetState = () => this.setState({ title: this.props.title, description: this.props.description || '' });
+  resetState = () => this.setState({ title: this.props.card.title, description: this.props.card.description || '' });
 
-  closeModal = () => this.setState({ modalOpen: false, title: this.props.title, description: this.props.description || '', labels: this.props.labels });
+  closeModal = () => this.setState({ modalOpen: false, title: this.props.card.title, description: this.props.card.description || '', labels: this.props.card.labels });
 
   openModal = () => this.setState({ modalOpen: true });
 
   handleSelection = (e, { value }) => this.setState({ labels: value });
 
   handleLabels = () => {
-    const { labels } = this.props;
+    const { labels } = this.props.card;
     const filtered = [];
 
     labels.forEach((label) => {
@@ -90,7 +92,7 @@ class Card extends Component {
 
   render() {
     const { modalOpen, description } = this.state;
-    const { title, cards, cardId } = this.props;
+    const { title, comments, cardId } = this.props.card;
 
     return (
       <StyledModal
@@ -103,6 +105,9 @@ class Card extends Component {
               <SemanticCard.Description as="pre">
                 { title }
               </SemanticCard.Description>
+              <SemanticCard.Content extra>
+                <CommentsInfo><Icon name="comment" />{comments.length}</CommentsInfo>
+              </SemanticCard.Content>
             </SemanticCard.Content>
           </StyledCard>
         }
@@ -142,8 +147,9 @@ class Card extends Component {
         <Modal.Content scrolling style={{ paddingTop: 0 }}>
           <Header>Comments</Header>
           <Comment
-            {...this.props}
-            comments={cards[cardId].comments}
+            {...this.props.card}
+            cardId={cardId}
+            comments={comments}
           />
         </Modal.Content>
         <Modal.Actions>
@@ -177,9 +183,7 @@ class Card extends Component {
   }
 }
 
-export default connect(state => ({
-  cards: state.Cards
-}))(Card);
+export default connect()(Card);
 
 const StyledModal = styled(({ className, children, ...rest }) => (
   <Modal className={className} {...rest}>
@@ -217,6 +221,14 @@ const StyledCard = styled(SemanticCard)`
       transform: translateY(-5px);
       background-color: ${colors.swimLane};
     }
+  }
+`;
+
+const CommentsInfo = styled.div`
+  color: ${colors.grey};
+
+  .icon {
+    vertical-align: top;
   }
 `;
 
