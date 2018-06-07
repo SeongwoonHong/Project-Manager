@@ -93,7 +93,7 @@ class Card extends Component {
     const { title, cards, cardId } = this.props;
 
     return (
-      <Modal
+      <StyledModal
         trigger={
           <StyledCard onClick={this.openModal} as="div">
             <SemanticCard.Content >
@@ -139,7 +139,8 @@ class Card extends Component {
             />
           </Modal.Description>
         </Modal.Content>
-        <Modal.Content scrolling>
+        <Modal.Content scrolling style={{ paddingTop: 0 }}>
+          <Header>Comments</Header>
           <Comment
             {...this.props}
             comments={cards[cardId].comments}
@@ -171,7 +172,7 @@ class Card extends Component {
             content="Save"
           />
         </Modal.Actions>
-      </Modal>
+      </StyledModal>
     );
   }
 }
@@ -179,6 +180,16 @@ class Card extends Component {
 export default connect(state => ({
   cards: state.Cards
 }))(Card);
+
+const StyledModal = styled(({ className, children, ...rest }) => (
+  <Modal className={className} {...rest}>
+    {children}
+  </Modal>
+))`
+  .ui.label {
+    font-size: 16px !important;
+  }
+`;
 
 const StyledTextArea = styled(({ className, children, ...rest }) => (
   <TextArea className={className} {...rest}>
@@ -191,6 +202,10 @@ const StyledTextArea = styled(({ className, children, ...rest }) => (
   border-radius: 5px;
   padding: 5px;
   border: 1px solid ${colors.lightGrey};
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 const StyledCard = styled(SemanticCard)`

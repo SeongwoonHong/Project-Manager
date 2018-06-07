@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Input } from 'semantic-ui-react';
+import { Button, TextArea } from 'semantic-ui-react';
 import TimeAgo from 'react-timeago';
 import styled from 'styled-components';
 
@@ -49,29 +49,31 @@ class EditComment extends Component {
       <StyledEditComment>
         {editing ? (
           <div className="comment-edit">
-            <Input
+            <TextArea
               type="text"
               value={term}
               onChange={this.handleChange}
               size="tiny"
-              style={{ flexGrow: 1 }}
+              autoHeight
               className="edit-input"
             />
-            <Button size="tiny" onClick={this.toggleEditing} negative floated="right">
+            <Button size="tiny" onClick={this.toggleEditing} negative>
               Cancel
             </Button>
-            <Button size="tiny" onClick={this.handleSave} positive floated="right">
+            <Button size="tiny" onClick={this.handleSave} positive>
               Save
             </Button>
           </div>
         ) : (
           <div className="comment-container">
-            <span className="comment">{comment} <TimeAgo date={time} live={false} /></span>
-            {isEdit ? '  (edited)' : null}
-            <Button size="tiny" onClick={this.handleRemove} negative floated="right">
+            <pre className="comment">{comment}</pre>
+            <div className="comment-info">
+              <TimeAgo date={time} live={false} /> {isEdit ? <strong> (edited)</strong> : null}
+            </div>
+            <Button size="tiny" onClick={this.handleRemove} negative>
               Remove
             </Button>
-            <Button size="tiny" onClick={this.toggleEditing} positive floated="right">
+            <Button size="tiny" onClick={this.toggleEditing} positive>
               Edit
             </Button>
           </div>
@@ -84,18 +86,27 @@ class EditComment extends Component {
 export default connect()(EditComment);
 
 const StyledEditComment = styled.div`
-  .comment-edit, .comment-container {
-    display: flex;
-    align-items: center;
-  }
-
   .edit-input, .comment {
-    flex-grow: 1;
+    margin: 0;
+    width: 100%;
+    display: block;
+
+    &:focus {
+      outline: none;
+    }
   }
   
+  .edit-input {
+    margin-bottom: 5px;
+    border: 1px solid rgb(211,211,211);
+  }
+
+  .comment-info {
+    font-size: 12px;
+  }
+
   time {
     font-size: 12px;
     line-height: 24px;
-    margin-left: 5px;
   }
 `;

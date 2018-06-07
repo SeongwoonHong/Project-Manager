@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, TextArea } from 'semantic-ui-react';
+import { Button, TextArea, Divider } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 import { Cards } from 'actions';
@@ -36,7 +36,7 @@ class Comment extends Component {
     const { comment } = this.state;
     const time = new Date();
 
-    dispatch(Cards.addComment(cardId, comment, time));
+    dispatch(Cards.addComment(cardId, comment.trim(), time));
 
     return this.setState({ comment: '' });
   };
@@ -53,6 +53,7 @@ class Comment extends Component {
             name="comment"
             placeholder="Add comments..."
             onChange={this.onChangeHandler}
+            autoHeight
             value={comment}
           />
           <Button
@@ -64,10 +65,10 @@ class Comment extends Component {
             labelPosition="right"
             positive
             content="Save"
-            floated="right"
-            disabled={!comment}
+            disabled={!comment.trim()}
           />
         </div>
+        <Divider />
         <div className="comments__container">
           { this.getComment() }
         </div>
@@ -80,15 +81,9 @@ export default connect(state => ({
 }))(Comment);
 
 const CommentsContainer = styled.div`
-  .comment {
-    display: flex;
-    margin-left: auto;
-    margin-right: auto;
-
-    &__button {
-      grid-row: 1 / -1;
-      grid-column: 4;
-    }
+  .comment__button {
+    width: 100%;
+    margin-top: 5px;
   }
 
   .comments__container {
@@ -112,11 +107,16 @@ const StyledTextArea = styled(({ className, children, ...rest }) => (
     {children}
   </TextArea>
 ))`
-  width: 77%;
+  display: block;
+  width: 100%;
   color: ${colors.grey};
   box-shadow: -7px 10px 55px -19px rgba(0, 0, 0, 0.75);
   border-radius: 5px;
   padding: 5px;
   border: 1px solid ${colors.lightGrey};
+
+  &:focus {
+    outline: none;
+  }
 `;
 
