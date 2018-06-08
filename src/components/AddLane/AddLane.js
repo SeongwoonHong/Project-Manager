@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Form, Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
 
 import { Lanes, Project } from 'actions';
 import shortid from 'shortid';
@@ -33,6 +34,11 @@ class AddLane extends Component {
     const { dispatch } = this.props;
     const id = shortid.generate();
 
+    if (!name.trim()) {
+      return toast.error('Name cannot be empty', {
+        position: toast.POSITION_TOP_RIGHT,
+      });
+    }
     dispatch(Lanes.addLane(name, id));
     dispatch(Project.addLane(id));
 
