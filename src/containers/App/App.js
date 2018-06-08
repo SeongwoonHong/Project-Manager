@@ -12,7 +12,7 @@ class App extends Component {
   componentDidMount = () => {
     const { dispatch } = this.props;
 
-    dispatch(Project.fetchLaneIds());
+    dispatch(Project.fetchProject());
     dispatch(Lanes.fetchLanes());
     dispatch(Cards.fetchCards());
 

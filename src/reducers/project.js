@@ -59,11 +59,12 @@ export default function (state = initialState, action) {
         lanes: newProject,
       };
     }
-    case Project.FETCH_LANE_IDS: {
-      const laneIds = JSON.parse(localStorage.getItem('pm-project')).lanes;
+    case Project.FETCH_PROJECT: {
+      const { lanes: laneIds, name } = JSON.parse(localStorage.getItem('pm-project'));
 
       return {
         ...state,
+        name,
         lanes: [
           ...laneIds
         ],

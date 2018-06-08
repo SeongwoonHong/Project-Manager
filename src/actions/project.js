@@ -7,7 +7,7 @@ export const ADD_CARD = 'ADD_CARD';
 export const ADD_CART = 'ADD_CART';
 export const PROJECT_DELETE_LANE = 'PROJECT_DELETE_LANE';
 export const PROJECT_MOVE_LANE = 'PROJECT_MOVE_LANE';
-export const FETCH_LANE_IDS = 'FETCH_LANE_IDS';
+export const FETCH_PROJECT = 'FETCH_PROJECT';
 export const DELETE_PROJECT = 'DELETE_PROJECT';
 /**
  * Action creators
@@ -49,9 +49,9 @@ export function moveLane(sourceIndex, destIndex) {
   };
 }
 
-export function fetchLaneIds() {
+export function fetchProject() {
   return {
-    type: FETCH_LANE_IDS,
+    type: FETCH_PROJECT,
   };
 }
 
