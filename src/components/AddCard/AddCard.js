@@ -1,91 +1,76 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Icon, Form, Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { toast } from 'react-toastify';
-import shortid from 'shortid';
 
-import { Cards, Lanes } from 'actions';
+import CardForm from './CardForm.js';
 
-class AddCard extends Component {
+class AddCard extends React.Component {
+  static defaultProps = { laneId: '' };
   state = {
     isEditing: false,
-    title: '',
-  }
+    clickOutside: false
+  };
 
-  onKeyDownHandler = (e) => {
-    if (e.keyCode === 13 && e.shiftKey === false) {
-      return this.addCardHandler();
-    }
+  handleToggle = fetchingIsEditing =>
+    this.setState({ isEditing: fetchingIsEditing });
 
-    if (e.keyCode === 27) {
-      return this.resetState();
-    }
+  handleClickOutside = (fetchingClickOutside, fetchingIsEditing = false) => {
+    this.setState({
+      clickOutside: fetchingClickOutside,
+      isEditing: fetchingIsEditing
+    });
+  };
 
-    return false;
-  }
-
-  onChangeHandler = (e, { name, value }) => this.setState({ [name]: value });
-
-  resetState = () => this.setState({ isEditing: false, title: '' });
-
-  addCardHandler = () => {
-    const { dispatch, laneId } = this.props;
-    const { title } = this.state;
-    const cardId = shortid.generate();
-
-    if (!title.trim()) {
-      return toast.error('Title cannot be empty', {
-        position: toast.POSITION_TOP_RIGHT
-      });
-    }
-    dispatch(Cards.addCard(title, cardId));
-    dispatch(Lanes.addCard(laneId, cardId));
-
-    return this.setState({ isEditing: false, title: '' });
-  }
+  handleTriggerClick = () =>
+    this.setState({ isEditing: !this.state.isEditing, clickOutside: false });
 
   render() {
-    const { isEditing, title } = this.state;
-
+    const { isEditing, clickOutside } = this.state;
     return (
       <StyledDiv>
-        {
-          !isEditing ?
-            <StyledIconContainer>
-              <Icon name="plus" size="large" onClick={() => this.setState({ isEditing: true })} />
-            </StyledIconContainer> :
-            <Form>
-              <Form.Field>
-                <Form.Input
-                  type="text"
-                  name="title"
-                  placeholder={title ? '' : 'Add a new card'}
-                  value={title || ''}
-                  onChange={this.onChangeHandler}
-                  onKeyDown={this.onKeyDownHandler}
-                />
-                <Button
-                  type="button"
-                  onClick={this.resetState}
-                  negative
-                  icon="cancel"
-                  labelPosition="right"
-                  content="Cancel"
-                  floated="left"
-                />
-                <Button
-                  type="button"
-                  positive
-                  icon="checkmark"
-                  labelPosition="right"
-                  onClick={this.addCardHandler}
-                  content="Save"
-                  floated="right"
-                />
-              </Form.Field>
-            </Form>
-        }
+        {isEditing && !clickOutside ? (
+          <CardForm
+            fetchClickOutside={this.handleClickOutside}
+            onToggle={this.handleToggle}
+            render={({ title, onChange, onAddCard, onKeyDown, onReset }) => (
+              <Form>
+                <Form.Field>
+                  <Form.Input
+                    type="text"
+                    name="title"
+                    placeholder={title ? '' : 'Add a new card'}
+                    value={title || ''}
+                    onChange={onChange}
+                    onKeyDown={onKeyDown}
+                  />
+                  <Button
+                    onClick={onReset}
+                    negative
+                    icon="cancel"
+                    labelPosition="right"
+                    content="Cancel"
+                    floated="left"
+                  />
+                  <Button
+                    type="button"
+                    positive
+                    icon="checkmark"
+                    labelPosition="right"
+                    onClick={onAddCard}
+                    content="Save"
+                    floated="right"
+                  />
+                </Form.Field>
+              </Form>
+            )}
+            {...this.props}
+          />
+        ) : (
+          <StyledIconContainer>
+            <Icon name="plus" size="large" onClick={this.handleTriggerClick} />
+          </StyledIconContainer>
+        )}
       </StyledDiv>
     );
   }
@@ -109,4 +94,3 @@ const StyledIconContainer = styled.div`
     background-color: rgba(255, 255, 255, 0.3);
   }
 `;
-
