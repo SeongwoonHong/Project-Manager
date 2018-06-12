@@ -3,65 +3,79 @@ import { Card, Form, Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { toast } from 'react-toastify';
 
-import { Project } from 'actions';
 import { colors } from 'utils/colors';
+import ProjectForm from './ProjectForm';
 
 class AddProject extends Component {
   state = {
     isEditing: false,
-    name: ''
-  }
+    clickOutside: false
+  };
 
-  onClickHandler = () => {
-    const { isEditing } = this.state;
-
-    return !isEditing ? this.setState({ isEditing: true }) : false;
-  }
-
-  onChangeHandler = e => this.setState({ name: e.target.value })
-
-  onCancelHandler = () => this.setState({ name: '', isEditing: false })
-
-  handleSubmit = () => {
-    const { name } = this.state;
-    const { history, dispatch } = this.props;
-
-    if (!name.trim()) {
-      return toast.error('Name cannot be empty', {
-        position: toast.POSITION_TOP_RIGHT
+  handleTriggerClick = () => {
+    const { isEditing, clickOutside } = this.state;
+    if (!clickOutside && !isEditing) {
+      return this.setState({ isEditing: !isEditing });
+    }
+    if (clickOutside && !isEditing) {
+      return this.setState({
+        isEditing: !isEditing,
+        clickOutside: false
       });
     }
-    this.setState({ isEditing: false });
-    dispatch(Project.addProject(name));
+  };
 
-    return history.push(`/project/${name}`);
-  }
+  handleToggle = fetchingIsEditing =>
+    this.setState({ isEditing: fetchingIsEditing });
+
+  handleClickOutside = (fetchingClickOutside, fetchingIsEditing = false) => {
+    this.setState({
+      clickOutside: fetchingClickOutside,
+      isEditing: fetchingIsEditing
+    });
+  };
 
   renderEditing = () => (
-    <Form onSubmit={this.handleSubmit}>
-      <Form.Field onChange={this.onChangeHandler}>
-        <input placeholder="Project name" />
-      </Form.Field>
-      <Button type="submit" positive floated="right">Create</Button>
-      <Button type="button" negative onClick={this.onCancelHandler} floated="left">Cancel</Button>
-    </Form>
-  )
-
-  renderNotEditing = () => (
-    <Card.Header>
-      Add a new project..
-    </Card.Header>
+    <div>
+      <ProjectForm
+        fetchClickOutside={this.handleClickOutside}
+        onToggle={this.handleToggle}
+        render={({ name, onSubmit, onChange, onCancel }) => (
+          <Form>
+            <Form.Field>
+              <Form.Input
+                type="text"
+                name="name"
+                placeholder="Project name"
+                value={name || ''}
+                onChange={onChange}
+              />
+              <Button positive floated="right" onClick={onSubmit}>
+                Create
+              </Button>
+              <Button type="button" negative onClick={onCancel} floated="left">
+                Cancel
+              </Button>
+            </Form.Field>
+          </Form>
+        )}
+        {...this.props}
+      />
+    </div>
   );
 
+  renderNotEditing = () => <Card.Header>Add a new project..</Card.Header>;
+
   render() {
-    const { isEditing } = this.state;
+    const { isEditing, clickOutside } = this.state;
 
     return (
-      <StyledCard onClick={this.onClickHandler}>
+      <StyledCard onClick={this.handleTriggerClick}>
         <Card.Content>
-          { isEditing ? this.renderEditing() : this.renderNotEditing() }
+          {isEditing && !clickOutside
+            ? this.renderEditing()
+            : this.renderNotEditing()}
         </Card.Content>
       </StyledCard>
     );
@@ -90,7 +104,7 @@ const StyledCard = styled(({ children, className, ...rest }) => (
       background-color: ${colors.teal};
     }
 
-    >.content {
+    > .content {
       flex-grow: initial;
 
       .header {
@@ -99,4 +113,3 @@ const StyledCard = styled(({ children, className, ...rest }) => (
     }
   }
 `;
-

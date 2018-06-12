@@ -4,87 +4,74 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
 
-import { Lanes, Project } from 'actions';
-import shortid from 'shortid';
+import LaneForm from './LaneForm';
 
 class AddLane extends Component {
   state = {
     isEditing: false,
-    name: '',
-  }
+    clickOutside: false
+  };
 
-  onKeyDownHandler = (e) => {
-    if (e.keyCode === 13 && e.shiftKey === false) {
-      return this.submitHandler();
-    }
+  fetchingToggle = isEditingOnOutsideClick =>
+    this.setState({ isEditing: isEditingOnOutsideClick });
 
-    if (e.keyCode === 27) {
-      return this.resetState();
-    }
+  handleClickOutside = (fetchingClickOutside, fetchingIsEditing = false) => {
+    this.setState({
+      clickOutside: fetchingClickOutside,
+      isEditing: fetchingIsEditing
+    });
+  };
 
-    return false;
-  }
-
-  changeHandler = (e, { name, value }) => this.setState({ [name]: value });
-
-  resetState = () => this.setState({ isEditing: false, name: '' });
-
-  submitHandler = () => {
-    const { name } = this.state;
-    const { dispatch } = this.props;
-    const id = shortid.generate();
-
-    if (!name.trim()) {
-      return toast.error('Name cannot be empty', {
-        position: toast.POSITION_TOP_RIGHT,
-      });
-    }
-    dispatch(Lanes.addLane(name, id));
-    dispatch(Project.addLane(id));
-
-    return this.resetState();
-  }
+  handleTriggerClick = () => this.setState({ isEditing: !this.state.isEditing, clickOutside: false });
 
   render() {
-    const { isEditing, name } = this.state;
+    const { isEditing, clickOutside } = this.state;
 
     return (
       <StyledAddLaneContainer>
-        {
-          !isEditing ?
-            <Button positive onClick={() => this.setState({ isEditing: true })}>Add a new lane</Button>
-            :
-            <Form>
-              <Form.Field>
-                <Form.Input
-                  type="text"
-                  name="name"
-                  placeholder={name || ''}
-                  value={name || ''}
-                  onChange={this.changeHandler}
-                  onKeyDown={this.onKeyDownHandler}
-                />
-                <Button
-                  type="button"
-                  onClick={this.resetState}
-                  negative
-                  icon="cancel"
-                  labelPosition="right"
-                  content="Cancel"
-                  floated="left"
-                />
-                <Button
-                  type="button"
-                  positive
-                  icon="checkmark"
-                  labelPosition="right"
-                  onClick={this.submitHandler}
-                  content="Save"
-                  floated="right"
-                />
-              </Form.Field>
-            </Form>
-        }
+        {isEditing && !clickOutside ? (
+          <LaneForm
+            fetchClickOutside={this.handleClickOutside}
+            onToggle={this.fetchingToggle}
+            render={({ name, onKeyDown, onChange, onReset, onAddLane }) => (
+              <Form>
+                <Form.Field>
+                  <Form.Input
+                    type="text"
+                    name="name"
+                    placeholder={name || ''}
+                    value={name || ''}
+                    onChange={onChange}
+                    onKeyDown={onKeyDown}
+                  />
+                  <Button
+                    type="button"
+                    onClick={onReset}
+                    negative
+                    icon="cancel"
+                    labelPosition="right"
+                    content="Cancel"
+                    floated="left"
+                  />
+                  <Button
+                    type="button"
+                    positive
+                    icon="checkmark"
+                    labelPosition="right"
+                    onClick={onAddLane}
+                    content="Save"
+                    floated="right"
+                  />
+                </Form.Field>
+              </Form>
+            )}
+            {...this.props}
+          />
+        ) : (
+          <Button positive onClick={this.handleTriggerClick}>
+            Add a new lane
+          </Button>
+        )}
       </StyledAddLaneContainer>
     );
   }
