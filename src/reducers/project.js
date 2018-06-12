@@ -1,4 +1,5 @@
 import { Project } from 'actions';
+import data from 'utils/data/demoData.json';
 
 const initialState = {
   id: null,
@@ -60,6 +61,13 @@ export default function (state = initialState, action) {
       };
     }
     case Project.FETCH_PROJECT: {
+      if (action.isDemo) {
+        localStorage.setItem('pm-project', JSON.stringify(data.project));
+
+        return {
+          ...data.project,
+        };
+      }
       const { lanes: laneIds, name } = JSON.parse(localStorage.getItem('pm-project'));
 
       return {
@@ -74,7 +82,10 @@ export default function (state = initialState, action) {
       localStorage.removeItem('pm-project');
       localStorage.removeItem('pm-cards');
       localStorage.removeItem('pm-lanes');
-      action.history.push('/');
+
+      if (action.history) {
+        action.history.push('/');
+      }
 
       return initialState;
     default:

@@ -1,0 +1,108 @@
+{
+  "cards": {
+    "Bk2-b7alX": {
+      "cardId": "Bk2-b7alX",
+      "title": "Set up Docker compose",
+      "labels": ["API", "Development"],
+      "comments": [],
+      "description": ""
+    },
+    "HJ6oem6xQ": {
+      "cardId": "HJ6oem6xQ",
+      "title": "UI integration with youtube",
+      "labels": ["API", "UI", "Development"],
+      "comments": [],
+      "description": ""
+    },
+    "Hy5Ng7ag7": {
+      "cardId": "Hy5Ng7ag7",
+      "title": "Model Account Testing",
+      "labels": [],
+      "comments": [
+        {
+          "comment": "Sample 1..",
+          "isEdit": true,
+          "time": "2018-06-12T10:28:15.681Z"
+        },
+        {
+          "comment": "Sample 2",
+          "isEdit": false,
+          "time": "2018-06-12T10:28:19.274Z"
+        }
+      ]
+    },
+    "HyU0g7Txm": {
+      "cardId": "HyU0g7Txm",
+      "title": "Bug: UI is broken when file is empty",
+      "labels": ["Bug"],
+      "comments": [],
+      "description": ""
+    },
+    "SJbqeQTgm": {
+      "cardId": "SJbqeQTgm",
+      "title": "Unit testing for account",
+      "labels": [],
+      "comments": []
+    },
+    "Sy9Oxmpgm": {
+      "cardId": "Sy9Oxmpgm",
+      "title": "Bug: User cannot reset password",
+      "labels": ["Bug"],
+      "comments": [],
+      "description": "Sample description"
+    },
+    "r1OLxXpg7": {
+      "cardId": "r1OLxXpg7",
+      "title": "Implement Signup feature",
+      "labels": ["Development", "Feature"],
+      "comments": [
+        {
+          "comment": "Sample 1",
+          "isEdit": false,
+          "time": "2018-06-12T10:28:40.409Z"
+        }
+      ],
+      "description": "This is sample description"
+    },
+    "ryJTxmpgQ": {
+      "cardId": "ryJTxmpgQ",
+      "title": "Add custom loading component",
+      "labels": ["UI", "Development"],
+      "description": "",
+      "comments": [
+        {
+          "comment": "comment 1",
+          "isEdit": false,
+          "time": "2018-06-12T10:31:42.191Z"
+        },
+        {
+          "comment": "sample comment 2 ...",
+          "isEdit": true,
+          "time": "2018-06-12T10:31:44.981Z"
+        }
+      ]
+    }
+  },
+  "lanes": {
+    "BJ-mg7Tgm": {
+      "laneId": "BJ-mg7Tgm",
+      "name": "Backlog",
+      "cards": ["Hy5Ng7ag7", "r1OLxXpg7", "Sy9Oxmpgm"]
+    },
+    "HJ5Qg7plm": {
+      "laneId": "HJ5Qg7plm",
+      "name": "Staging",
+      "cards": ["ryJTxmpgQ", "Bk2-b7alX"]
+    },
+    "SkrXl7agQ": {
+      "laneId": "SkrXl7agQ",
+      "name": "In Progress",
+      "cards": ["SJbqeQTgm", "HJ6oem6xQ"]
+    }
+  },
+  "project": {
+    "id": null,
+    "lanes": ["BJ-mg7Tgm", "SkrXl7agQ", "HJ5Qg7plm"],
+    "name": "Avengers 2.0"
+  }
+}

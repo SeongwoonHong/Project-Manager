@@ -47,9 +47,10 @@ export function addLabel(cardId, content) {
   };
 }
 
-export function fetchCards() {
+export function fetchCards(isDemo) {
   return {
     type: FETCH_CARDS,
+    isDemo,
   };
 }
 

@@ -15,7 +15,11 @@ class AddProject extends Component {
 
   handleTriggerClick = () => {
     const { isEditing, clickOutside } = this.state;
+    const { isDemo, history } = this.props;
 
+    if (isDemo) {
+      return history.push('/project/demo');
+    }
     if (!clickOutside && !isEditing) {
       return this.setState({ isEditing: !isEditing });
     }
@@ -71,9 +75,10 @@ class AddProject extends Component {
 
   render() {
     const { isEditing, clickOutside } = this.state;
+    const { isDemo } = this.props;
 
     return (
-      <StyledCard onClick={this.handleTriggerClick}>
+      <StyledCard isDemo={isDemo} onClick={this.handleTriggerClick}>
         <Card.Content>
           {isEditing && !clickOutside
             ? this.renderEditing()
@@ -86,7 +91,7 @@ class AddProject extends Component {
 
 export default connect()(withRouter(AddProject));
 
-const StyledCard = styled(({ children, className, ...rest }) => (
+const StyledCard = styled(({ children, className, isDemo, ...rest }) => (
   <Card className={className} {...rest}>
     {children}
   </Card>
@@ -99,7 +104,7 @@ const StyledCard = styled(({ children, className, ...rest }) => (
     justify-content: center;
     align-items: center;
     transition: all 0.2s ease-in;
-    background-color: ${colors.lightTeal};
+    background-color: ${props => (props.isDemo ? colors.teal : colors.lightTeal)};
 
     &:hover {
       transform: translateY(-5px);

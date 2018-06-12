@@ -49,9 +49,10 @@ export function moveLane(sourceIndex, destIndex) {
   };
 }
 
-export function fetchProject() {
+export function fetchProject(isDemo = null) {
   return {
     type: FETCH_PROJECT,
+    isDemo,
   };
 }
 

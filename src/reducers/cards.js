@@ -1,4 +1,5 @@
 import { Cards } from 'actions';
+import data from 'utils/data/demoData.json';
 
 export default function (state = {}, action) {
   switch (action.type) {
@@ -87,6 +88,13 @@ export default function (state = {}, action) {
         }
       };
     case Cards.FETCH_CARDS: {
+      if (action.isDemo) {
+        localStorage.setItem('pm-cards', JSON.stringify(data.cards));
+
+        return {
+          ...data.cards,
+        };
+      }
       const cards = JSON.parse(localStorage.getItem('pm-cards')) || {};
 
       return {

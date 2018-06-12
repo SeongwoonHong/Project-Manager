@@ -70,9 +70,10 @@ export function moveCardToOtherLane(sourceId, destId, sourceIndex, destIndex) {
   };
 }
 
-export function fetchLanes() {
+export function fetchLanes(isDemo) {
   return {
     type: FETCH_LANES,
+    isDemo,
   };
 }
 

@@ -10,22 +10,23 @@ import ProjectHeader from 'components/ProjectHeader/ProjectHeader';
 
 class App extends Component {
   componentDidMount = () => {
-    const { dispatch } = this.props;
+    const { dispatch, match } = this.props;
+    const isDemo = match.path.includes('demo');
 
-    dispatch(Project.fetchProject());
-    dispatch(Lanes.fetchLanes());
-    dispatch(Cards.fetchCards());
+    dispatch(Project.fetchProject(isDemo));
+    dispatch(Lanes.fetchLanes(isDemo));
+    dispatch(Cards.fetchCards(isDemo));
 
     return false;
   }
 
   render() {
-    const { match, project } = this.props;
+    const { project } = this.props;
 
     return (
       <Segment className="App" basic>
         <ProjectHeader
-          name={match.params.name}
+          name={project.name}
         />
         <Board project={project} />
       </Segment>

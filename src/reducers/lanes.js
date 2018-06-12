@@ -1,4 +1,5 @@
 import { Lanes } from 'actions';
+import data from 'utils/data/demoData.json';
 
 export default function (state = {}, action) {
   switch (action.type) {
@@ -128,6 +129,13 @@ export default function (state = {}, action) {
       };
     }
     case Lanes.FETCH_LANES: {
+      if (action.isDemo) {
+        localStorage.setItem('pm-lanes', JSON.stringify(data.lanes));
+
+        return {
+          ...data.lanes
+        };
+      }
       const lanes = JSON.parse(localStorage.getItem('pm-lanes')) || {};
 
       return {

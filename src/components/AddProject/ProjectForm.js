@@ -6,7 +6,9 @@ import { Project } from 'actions';
 import WithClickOutside from 'components/withHOC/WithClickOutside';
 
 class ProjectForm extends Component {
-  state = { name: '' };
+  state = {
+    name: ''
+  };
 
   onChangeHandler = e => this.setState({ name: e.target.value });
 
@@ -21,6 +23,7 @@ class ProjectForm extends Component {
         position: toast.POSITION_TOP_RIGHT
       });
     }
+    dispatch(Project.deleteProject());
     dispatch(Project.addProject(name));
 
     return history.push(`/project/${name}`);

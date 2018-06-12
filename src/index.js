@@ -39,8 +39,9 @@ ReactDOM.render(
               ? <Route path="/test" component={ TestRoutes } />
               : null
           }
+          <Route exact path="/project/demo" component={ App } />
           <Route path="/project/:name" component={ App } />
-          <Route exact path="/" component={Landing} />
+          <Route exact path="/" component={ Landing } />
           <Redirect to="/" />
         </Switch>
         <ToastContainer autoClose={3000} />
@@ -48,3 +49,4 @@ ReactDOM.render(
     </BrowserRouter>
   </Provider>, document.getElementById('root')
 );
+
