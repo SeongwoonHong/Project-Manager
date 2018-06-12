@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import { toast } from 'react-toastify';
 
@@ -6,10 +7,10 @@ import WithClickOutside from '../withHOC/WithClickOutside';
 
 class ProjectForm extends Component {
   state = { name: '' };
+
   onChangeHandler = e => this.setState({ name: e.target.value });
 
-  onCancelHandler = () =>
-    this.setState({ name: '' }, () => this.props.onToggle(false)); // callback
+  onCancelHandler = () => this.setState({ name: '' }, () => this.props.onToggle(false));
 
   handleSubmit = () => {
     const { name } = this.state;
@@ -24,6 +25,7 @@ class ProjectForm extends Component {
 
     return history.push(`/project/${name}`);
   };
+
   render() {
     return this.props.render({
       name: this.state.name,

@@ -5,7 +5,11 @@ function WithClickOutside(Component) {
     static defaultProps = {
       fetchClickOutside: () => {}
     };
-    state = { clickOutside: false };
+
+    state = {
+      clickOutside: false
+    };
+
     componentDidMount() {
       document.addEventListener('click', this.handleClickOutside);
     }
@@ -16,14 +20,14 @@ function WithClickOutside(Component) {
 
     handleClickOutside = (e) => {
       if (!this.containerRef || !this.containerRef.contains(e.target)) {
-        this.setState({ clickOutside: true }, () =>
+        return this.setState({ clickOutside: true }, () =>
           this.props.fetchClickOutside(this.state.clickOutside)
         );
-      } else {
-        this.setState({ clickOutside: false }, () =>
-          this.props.fetchClickOutside(this.state.clickOutside, true)
-        );
       }
+
+      return this.setState({ clickOutside: false }, () =>
+        this.props.fetchClickOutside(this.state.clickOutside, true)
+      );
     };
 
     render() {

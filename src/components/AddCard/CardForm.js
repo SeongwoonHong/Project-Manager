@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import { toast } from 'react-toastify';
 import shortid from 'shortid';
@@ -10,7 +11,10 @@ class CardForm extends Component {
     onToggle: () => {},
     laneId: ''
   };
-  state = { title: '' };
+
+  state = {
+    title: ''
+  };
 
   onKeyDownHandler = (e) => {
     if (e.keyCode === 13 && e.shiftKey === false) {
@@ -26,9 +30,7 @@ class CardForm extends Component {
 
   onChangeHandler = (e, { name, value }) => this.setState({ [name]: value });
 
-  resetState = () => {
-    this.setState({ title: '' }, () => this.props.onToggle(false));
-  };
+  resetState = () => this.setState({ title: '' }, () => this.props.onToggle(false));
 
   addCardHandler = () => {
     const { dispatch, laneId } = this.props;
