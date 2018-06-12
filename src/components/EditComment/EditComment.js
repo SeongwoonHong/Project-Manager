@@ -13,6 +13,7 @@ class EditComment extends Component {
     isEdit: false,
     cardId: ''
   };
+
   state = {
     editing: false,
     term: this.props.comment,

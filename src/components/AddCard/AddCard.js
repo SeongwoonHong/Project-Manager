@@ -6,24 +6,25 @@ import { connect } from 'react-redux';
 import CardForm from './CardForm.js';
 
 class AddCard extends React.Component {
-  static defaultProps = { laneId: '' };
+  static defaultProps = {
+    laneId: ''
+  };
+
   state = {
     isEditing: false,
     clickOutside: false
   };
 
-  handleToggle = fetchingIsEditing =>
-    this.setState({ isEditing: fetchingIsEditing });
+  handleToggle = fetchingIsEditing => this.setState({ isEditing: fetchingIsEditing });
 
-  handleClickOutside = (fetchingClickOutside, fetchingIsEditing = false) => {
+  handleClickOutside = (fetchingClickOutside, fetchingIsEditing = false) => (
     this.setState({
       clickOutside: fetchingClickOutside,
       isEditing: fetchingIsEditing
-    });
-  };
+    })
+  );
 
-  handleTriggerClick = () =>
-    this.setState({ isEditing: !this.state.isEditing, clickOutside: false });
+  handleTriggerClick = () => this.setState({ isEditing: !this.state.isEditing, clickOutside: false });
 
   render() {
     const { isEditing, clickOutside } = this.state;

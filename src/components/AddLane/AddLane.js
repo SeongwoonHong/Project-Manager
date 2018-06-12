@@ -12,15 +12,14 @@ class AddLane extends Component {
     clickOutside: false
   };
 
-  fetchingToggle = isEditingOnOutsideClick =>
-    this.setState({ isEditing: isEditingOnOutsideClick });
+  fetchingToggle = isEditingOnOutsideClick => this.setState({ isEditing: isEditingOnOutsideClick });
 
-  handleClickOutside = (fetchingClickOutside, fetchingIsEditing = false) => {
+  handleClickOutside = (fetchingClickOutside, fetchingIsEditing = false) => (
     this.setState({
       clickOutside: fetchingClickOutside,
       isEditing: fetchingIsEditing
-    });
-  };
+    })
+  );
 
   handleTriggerClick = () => this.setState({ isEditing: !this.state.isEditing, clickOutside: false });
 

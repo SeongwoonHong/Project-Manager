@@ -15,6 +15,7 @@ class AddProject extends Component {
 
   handleTriggerClick = () => {
     const { isEditing, clickOutside } = this.state;
+
     if (!clickOutside && !isEditing) {
       return this.setState({ isEditing: !isEditing });
     }
@@ -24,17 +25,18 @@ class AddProject extends Component {
         clickOutside: false
       });
     }
+
+    return false;
   };
 
-  handleToggle = fetchingIsEditing =>
-    this.setState({ isEditing: fetchingIsEditing });
+  handleToggle = fetchingIsEditing => this.setState({ isEditing: fetchingIsEditing });
 
-  handleClickOutside = (fetchingClickOutside, fetchingIsEditing = false) => {
+  handleClickOutside = (fetchingClickOutside, fetchingIsEditing = false) => (
     this.setState({
       clickOutside: fetchingClickOutside,
       isEditing: fetchingIsEditing
-    });
-  };
+    })
+  );
 
   renderEditing = () => (
     <div>
