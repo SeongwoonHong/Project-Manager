@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Form, Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { toast } from 'react-toastify';
 
 import LaneForm from './LaneForm';
 

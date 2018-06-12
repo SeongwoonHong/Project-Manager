@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import { toast } from 'react-toastify';
 import shortid from 'shortid';
 import { Cards, Lanes } from 'actions';
-import WithClickOutside from '../withHOC/WithClickOutside.js';
+
+import WithClickOutside from 'components/withHOC/WithClickOutside.js';
 
 class CardForm extends Component {
   static defaultProps = {

@@ -2,7 +2,9 @@
 import React, { Component } from 'react';
 import shortid from 'shortid';
 import { Lanes, Project } from 'actions';
-import WithClickOutside from '../withHOC/WithClickOutside';
+import { toast } from 'react-toastify';
+
+import WithClickOutside from 'components/withHOC/WithClickOutside';
 
 class LaneForm extends Component {
   state = { name: '' };
@@ -26,6 +28,11 @@ class LaneForm extends Component {
     const { dispatch } = this.props;
     const id = shortid.generate();
 
+    if (!name.trim()) {
+      return toast.error('Name cannot be empty', {
+        position: toast.POSITION_TOP_RIGHT,
+      });
+    }
     dispatch(Lanes.addLane(name, id));
     dispatch(Project.addLane(id));
 
