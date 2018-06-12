@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { toast } from 'react-toastify';
 
 import { Project } from 'actions';
-import WithClickOutside from '../withHOC/WithClickOutside';
+import WithClickOutside from 'components/withHOC/WithClickOutside';
 
 class ProjectForm extends Component {
   state = { name: '' };
