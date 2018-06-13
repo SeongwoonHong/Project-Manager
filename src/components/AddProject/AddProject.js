@@ -71,7 +71,7 @@ class AddProject extends Component {
     </div>
   );
 
-  renderNotEditing = () => <Card.Header>Add a new project..</Card.Header>;
+  renderNotEditing = () => <Card.Header>{ this.props.isDemo ? 'See Demo' : 'Add a new project..' }</Card.Header>;
 
   render() {
     const { isEditing, clickOutside } = this.state;
