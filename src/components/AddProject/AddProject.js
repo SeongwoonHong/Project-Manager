@@ -3,14 +3,36 @@ import { Card, Form, Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
 
+import { Project } from 'actions';
 import { colors } from 'utils/colors';
-import ProjectForm from './ProjectForm';
+import ClickOutside from 'components/ClickOutside/ClickOutside';
 
 class AddProject extends Component {
   state = {
     isEditing: false,
-    clickOutside: false
+    clickOutside: false,
+    name: '',
+  };
+
+  onChangeHandler = e => this.setState({ name: e.target.value });
+
+  onCancelHandler = () => this.setState({ name: '', isEditing: false });
+
+  handleSubmit = () => {
+    const { name } = this.state;
+    const { history, dispatch } = this.props;
+
+    if (!name.trim()) {
+      return toast.error('Name cannot be empty', {
+        position: toast.POSITION_TOP_RIGHT
+      });
+    }
+    dispatch(Project.deleteProject());
+    dispatch(Project.addProject(name));
+
+    return history.push(`/project/${name}`);
   };
 
   handleTriggerClick = () => {
@@ -33,42 +55,34 @@ class AddProject extends Component {
     return false;
   };
 
-  handleToggle = fetchingIsEditing => this.setState({ isEditing: fetchingIsEditing });
-
   handleClickOutside = (fetchingClickOutside, fetchingIsEditing = false) => (
     this.setState({
       clickOutside: fetchingClickOutside,
-      isEditing: fetchingIsEditing
+      isEditing: fetchingIsEditing,
+      name: '',
     })
   );
 
   renderEditing = () => (
-    <div>
-      <ProjectForm
-        fetchClickOutside={this.handleClickOutside}
-        onToggle={this.handleToggle}
-        render={({ name, onSubmit, onChange, onCancel }) => (
-          <Form>
-            <Form.Field>
-              <Form.Input
-                type="text"
-                name="name"
-                placeholder="Project name"
-                value={name || ''}
-                onChange={onChange}
-              />
-              <Button positive floated="right" onClick={onSubmit}>
-                Create
-              </Button>
-              <Button type="button" negative onClick={onCancel} floated="left">
-                Cancel
-              </Button>
-            </Form.Field>
-          </Form>
-        )}
-        {...this.props}
-      />
-    </div>
+    <ClickOutside fetchClickOutside={this.handleClickOutside}>
+      <Form>
+        <Form.Field>
+          <Form.Input
+            type="text"
+            name="name"
+            placeholder="Project name"
+            value={this.state.name || ''}
+            onChange={this.onChangeHandler}
+          />
+          <Button positive floated="right" onClick={this.handleSubmit}>
+            Create
+          </Button>
+          <Button type="button" negative onClick={this.onCancelHandler} floated="left">
+            Cancel
+          </Button>
+        </Form.Field>
+      </Form>
+    </ClickOutside>
   );
 
   renderNotEditing = () => <Card.Header>{ this.props.isDemo ? 'See Demo' : 'Add a new project..' }</Card.Header>;
